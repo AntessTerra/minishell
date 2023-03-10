@@ -6,11 +6,18 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:12:32 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/09 16:45:44 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/10 14:53:31 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/*	Modified ft_strtrim
+
+	Only trims from the beggining
+	Used in shortening home path
+	/nfs/home/USER to ~
+*/
 
 static char	*ft_strtrim_begin(char const *s1, char const *set)
 {
@@ -36,6 +43,13 @@ static char	*ft_strtrim_begin(char const *s1, char const *set)
 	return (out);
 }
 
+/*	Shorten_pwd
+
+	Takes address of current working directory
+	and if it contains home path, it replaces it
+	with ~
+*/
+
 static char	*shorten_pwd(void)
 {
 	char	pwd[10000];
@@ -58,11 +72,28 @@ static char	*shorten_pwd(void)
 		}
 	}
 	else
-		ft_strlcpy(tmp, pwd, ft_strlen(pwd) + 1);
+		ft_strlcpy(tmp, pwd, ft_strlen(pwd));
 	return (tmp);
 }
 
-void	ft_get_promt(char **shell_promt)
+/*	Update_prompt
+
+	Frees the shell prompt and gets a new one
+*/
+
+void	update_prompt(char **shell_promt)
+{
+	free(*shell_promt);
+	ft_get_prompt(shell_promt);
+}
+
+/*	Get_prompt
+
+	Takes shorted working directory from shorten_pwd()
+	and manipulates it to look like prompt from fish
+*/
+
+void	ft_get_prompt(char **shell_promt)
 {
 	char	user[10000];
 	char	*name;
