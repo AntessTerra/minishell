@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 13:56:09 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/13 12:50:56 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/13 14:03:19 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,12 @@ int	main(void)
 		{
 			command = ft_split(line, ' ');
 			if (ft_strncmp(command[0], "exit", 4) == 0)
-				return (ft_exit(line, shell_prompt, command));
+				return (printf("exit\n"), ft_exit(line, shell_prompt, command));
 			else
 				handle_commands(command, line, &shell_prompt);
 		}
 		free(line);
 		line = readline(shell_prompt);
 	}
-	command = NULL;
-	return (ft_exit(line, shell_prompt, command));
+	return (command = NULL, ft_exit(line, shell_prompt, command));
 }

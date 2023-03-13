@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:12:32 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/13 13:36:22 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/13 14:05:09 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,15 +105,17 @@ void	ft_get_prompt(char **shell_promt)
 	ft_strlcpy(name, getenv("SESSION_MANAGER"), 100);
 	*shell_promt = (char *)malloc(ft_strlen(user)
 			+ ft_strlen(name) + 14);
-	ft_strlcpy(*shell_promt, "\033[0;35m", 8);
+	ft_strlcpy(*shell_promt, MAGENTA, 8);
 	ft_strlcat(*shell_promt, user, ft_strlen(*shell_promt)
 		+ ft_strlen(user) + 1);
-	ft_strlcat(*shell_promt, "\033[0m", ft_strlen(*shell_promt) + 5);
+	ft_strlcat(*shell_promt, END, ft_strlen(*shell_promt) + 5);
 	ft_strlcat(*shell_promt, "@", ft_strlen(*shell_promt) + 2);
 	ft_strlcat(*shell_promt, name + 6, ft_strlen(*shell_promt)
 		+ 7);
-	ft_strlcat(*shell_promt, " \033[0;35m", ft_strlen(*shell_promt) + 9);
+	ft_strlcat(*shell_promt, " ", ft_strlen(*shell_promt) + 2);
+	ft_strlcat(*shell_promt, MAGENTA, ft_strlen(*shell_promt) + 9);
 	ft_strlcat(*shell_promt, swd, ft_strlen(*shell_promt) + ft_strlen(swd) + 1);
-	ft_strlcat(*shell_promt, "\033[0m> ", ft_strlen(*shell_promt) + 7);
+	ft_strlcat(*shell_promt, END, ft_strlen(*shell_promt) + 5);
+	ft_strlcat(*shell_promt, "> ", ft_strlen(*shell_promt) + 3);
 	return (free(name), free(swd));
 }

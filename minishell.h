@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 13:56:16 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/10 16:48:05 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/13 13:54:20 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 # include <readline/history.h>
 # include <signal.h>
 # include <sys/ioctl.h>
+
+# define MAGENTA	"\033[0;35m"
+# define END		"\033[0m"
 
 //	Prompt.c
 
