@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 14:45:08 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/10 15:00:00 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/13 12:16:25 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	free_split(char	**str)
 	i = 0;
 	while (str[i])
 		free(str[i++]);
-	return (free(str));
+	free(str);
 }
 
 /*	Split_len

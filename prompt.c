@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:12:32 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/10 14:53:31 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/13 13:36:22 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static char	*shorten_pwd(void)
 	char	*tmp;
 
 	getcwd(pwd, 10000);
-	tmp = malloc(ft_strlen(pwd));
+	tmp = malloc(ft_strlen(pwd) + 1);
 	if (ft_strnstr(pwd, getenv("HOME"), ft_strlen(pwd)))
 	{
 		tmp[0] = '~';
@@ -72,7 +72,7 @@ static char	*shorten_pwd(void)
 		}
 	}
 	else
-		ft_strlcpy(tmp, pwd, ft_strlen(pwd));
+		ft_strlcpy(tmp, pwd, ft_strlen(pwd) + 1);
 	return (tmp);
 }
 

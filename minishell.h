@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 13:56:16 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/10 15:01:40 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/10 16:48:05 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <unistd.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <signal.h>
+# include <sys/ioctl.h>
 
 //	Prompt.c
 
