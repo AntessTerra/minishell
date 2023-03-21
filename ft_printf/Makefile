@@ -6,7 +6,7 @@
 #    By: jbartosi <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/17 12:24:34 by jbartosi          #+#    #+#              #
-#    Updated: 2023/02/08 18:32:39 by jbartosi         ###   ########.fr        #
+#    Updated: 2023/01/29 16:16:37 by jbartosi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ LIBC = ar rc
 LIBFT = ./libft/libft.a
 
 .c.o:
-	cc ${CFLAGS} -c $< -o ${<:.c=.o}
+	cc ${CFLAGS} -c $< -o ${<:.c=.o} -I ${INC}
 
 ${NAME}: ${OBJ}
 	make -C ./libft
@@ -34,6 +34,7 @@ bonus: all
 clean:
 	${MAKE} clean -C ./libft
 	${RM} ${OBJ}
+	${RM} ${OBJ_BONUS}
 
 fclean:	clean
 	${MAKE} fclean -C ./libft

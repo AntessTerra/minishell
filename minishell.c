@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 13:56:09 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/13 14:03:19 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/21 15:51:18 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	ft_exit(char *line, char *shell_prompt, char **command)
 	free(shell_prompt);
 	if (command != NULL && *command != NULL)
 		free_split(command);
+	ft_animate(1);
 	return (0);
 }
 
@@ -71,6 +72,7 @@ int	main(void)
 	signal(SIGQUIT, SIG_IGN);
 	line = NULL;
 	command = NULL;
+	ft_animate(0);
 	ft_get_prompt(&shell_prompt);
 	line = readline(shell_prompt);
 	while (line != NULL)
@@ -78,7 +80,7 @@ int	main(void)
 		if (ft_strlen(line) > 0)
 		{
 			command = ft_split(line, ' ');
-			if (ft_strncmp(command[0], "exit", 4) == 0)
+			if (ft_strncmp(command[0], "exit", 5) == 0)
 				return (printf("exit\n"), ft_exit(line, shell_prompt, command));
 			else
 				handle_commands(command, line, &shell_prompt);

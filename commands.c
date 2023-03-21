@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 14:07:50 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/13 12:19:49 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/21 10:56:19 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,9 @@ void	handle_commands(char **command, char *line, char **shell_prompt)
 {
 	char	*tmp;
 
-	if (ft_strncmp(command[0], "cd", ft_strlen(command[0])) == 0)
+	if (ft_strncmp(command[0], "cd", ft_strlen(command[0]) + 1) == 0)
 		handle_cd(command, shell_prompt);
-	else if (ft_strncmp(command[0], "pwd", ft_strlen(command[0])) == 0)
+	else if (ft_strncmp(command[0], "pwd", ft_strlen(command[0]) + 1) == 0)
 		print_pwd();
 	return (tmp = ft_strtrim(line, " "), add_history(tmp),
 		free(tmp), free_split(command));
