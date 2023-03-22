@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 14:00:55 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/22 14:12:48 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/22 17:33:44 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,23 @@ int	check_env(t_mshell *shell)
 */
 void	init_struct(char **envp, t_mshell *shell)
 {
+	int		i;
+	int		j;
+	char	tmp[100000];
+
+	shell->ennames = NULL;
+	shell->ennames = malloc((split_len(envp) + 1) * sizeof(char *));
+	i = -1;
+	while (envp[++i])
+	{
+		j = 0;
+		while (envp[i][j])
+			if (envp[i][j++] == '=')
+				break ;
+		shell->ennames[i] = malloc((j + 1) * sizeof(char));
+		ft_strlcpy(shell->ennames[i], envp[i], j);
+	}
+	shell->ennames[i] = NULL;
 	shell->envp = envp;
 	shell->home = NULL;
 	shell->user = NULL;

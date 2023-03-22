@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 13:56:16 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/22 14:01:52 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/22 16:45:29 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 typedef struct s_mshell
 {
 	char	**envp;
+	char	**ennames;
 	char	*user;
 	char	*home;
 	char	*name;

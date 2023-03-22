@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 14:07:50 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/22 16:01:22 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/22 17:36:19 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,9 +116,10 @@ void	handle_variables(char **command, t_mshell *shell)
 		if (command[i][0] == '$')
 		{
 			j = -1;
-			while (shell->envp[++j])
+			while (shell->ennames[++j])
 			{
-				if (ft_strncmp(shell->envp[j], command[i] + 1, len - 1) == 0)
+				if (ft_strncmp(shell->ennames[j], command[i] + 1,
+						ft_strlen(shell->ennames[j])) == 0)
 				{
 					free(command[i]);
 					command[i] = malloc(ft_strlen(shell->envp[j]) - len + 1);

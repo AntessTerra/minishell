@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 13:56:09 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/22 16:05:12 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/22 17:07:24 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	ft_exit(char *line, t_mshell *shell, char **command)
 	free(shell->home);
 	free(shell->user);
 	free(shell->name);
+	free_split(shell->ennames);
 	ft_animate(1);
 	return (0);
 }
@@ -64,9 +65,9 @@ void	handle_signal(int sig)
 */
 int	main(int argc, char **argv, char **envp)
 {
-	char		*line;
-	char		**command;
-	t_mshell	shell;
+	static char		*line;
+	static char		**command;
+	t_mshell		shell;
 
 	signal(SIGINT, handle_signal);
 	signal(SIGQUIT, SIG_IGN);
