@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 11:05:33 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/21 16:12:36 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/22 10:38:15 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	logo(void)
 	{
 		printf("%s\n", logo[i]);
 		if (i == 0)
-			usleep(500000);
+			usleep(350000);
 		else
 			usleep(180000);
 		clean_terminal(count_new_lines(logo[i]) + 1);
