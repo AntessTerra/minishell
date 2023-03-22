@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 14:45:08 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/13 12:16:25 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/22 13:04:40 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 
 	Frees memory from spliting a line
 */
-
 void	free_split(char	**str)
 {
 	int	i;
@@ -31,7 +30,6 @@ void	free_split(char	**str)
 
 	Counts the number of splited words
 */
-
 int	split_len(char **str)
 {
 	int	i;

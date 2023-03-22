@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 14:07:50 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/22 10:45:03 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/22 13:59:58 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 
 	Takes current working directory and displays it
 */
-
 void	print_pwd(void)
 {
 	char	pwd[10000];
@@ -37,8 +36,7 @@ void	print_pwd(void)
 			previous directory
 		relative or absolute path
 */
-
-void	handle_cd(char **command, char **shell_prompt)
+void	handle_cd(char **command, t_mshell *shell)
 {
 	static char	old_path[10000];
 	char		tmp[10000];
@@ -47,36 +45,36 @@ void	handle_cd(char **command, char **shell_prompt)
 	{
 		if (ft_strncmp(command[1], "~", ft_strlen(command[1])) == 0)
 			return (getcwd(old_path, 10000), chdir(getenv("HOME")),
-				update_prompt(shell_prompt));
+				update_prompt(shell));
 		else if (ft_strncmp(command[1], "-", ft_strlen(command[1])) == 0)
 		{
 			if (old_path[0] != '\0')
 				return (getcwd(tmp, 10000), chdir(old_path),
 					ft_strlcpy(old_path, tmp, ft_strlen(tmp) + 1), print_pwd(),
-					update_prompt(shell_prompt));
+					update_prompt(shell));
 			else
 				printf("NO old path set\n");
 		}
 		else
 			return (getcwd(old_path, 10000), chdir(command[1]),
-				update_prompt(shell_prompt));
+				update_prompt(shell));
 	}
 	else
 		return (getcwd(old_path, 10000), chdir(getenv("HOME")),
-			update_prompt(shell_prompt));
+			update_prompt(shell));
 }
 
-/*	Hanle_commands
+/*	Handle_commands
 
 	Takes splited line from readline and launches coresponding functions
 */
-
-void	handle_commands(char **command, char *line, char **shell_prompt)
+void	handle_commands(char **command, char *line, t_mshell *shell)
 {
 	char	*tmp;
 
-	if (ft_strncmp(command[0], "cd", ft_strlen(command[0]) + 1) == 0)
-		handle_cd(command, shell_prompt);
+	if (ft_strncmp(command[0], "cd", ft_strlen(command[0]) + 1) == 0
+		&& split_len(command) < 3)
+		handle_cd(command, shell);
 	else if (ft_strncmp(command[0], "pwd", ft_strlen(command[0]) + 1) == 0)
 		print_pwd();
 	return (tmp = ft_strtrim(line, " "), add_history(tmp),

@@ -6,7 +6,7 @@
 #    By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/15 13:56:55 by jbartosi          #+#    #+#              #
-#    Updated: 2023/03/21 15:31:46 by jbartosi         ###   ########.fr        #
+#    Updated: 2023/03/22 14:02:08 by jbartosi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ CFLAGS = -Wall -Wextra -Werror
 PRINTF = ft_printf
 LIBFT = ft_printf/libft
 
-SRC = minishell.c prompt.c commands.c split_utils.c animation.c animation_utils.c
+SRC = minishell.c prompt.c commands.c split_utils.c animation.c animation_utils.c enviroment.c
 OBJ = $(SRC:.c=.o)
 
 all: lib $(NAME)

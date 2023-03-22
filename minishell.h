@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 13:56:16 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/22 11:13:12 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/22 14:01:52 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,30 @@
 # include <sys/ioctl.h>
 # include <errno.h>
 
+typedef struct s_mshell
+{
+	char	**envp;
+	char	*user;
+	char	*home;
+	char	*name;
+	char	*shell_prompt;
+}				t_mshell;
+
+//	Enviroment.c
+
+int		init_env(char **envp, t_mshell *shell);
+
 //	Prompt.c
 
 # define MAGENTA	"\033[0;35m"
 # define END		"\033[0m"
 
-void	ft_get_prompt(char **shell_promt);
-void	update_prompt(char **shell_promt);
+void	ft_get_prompt(t_mshell *shell);
+void	update_prompt(t_mshell *shell);
 
 //	Commands.c
 
-void	handle_commands(char **command, char *line, char **shell_prompt);
+void	handle_commands(char **command, char *line, t_mshell *shell);
 
 //	Split_utils.c
 
