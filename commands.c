@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 14:07:50 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/22 15:33:08 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/22 16:01:22 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,33 @@ void	handle_echo(char **command)
 	}
 }
 
+void	handle_variables(char **command, t_mshell *shell)
+{
+	int	i;
+	int	j;
+	int	len;
+
+	i = -1;
+	while (command[++i])
+	{
+		len = ft_strlen(command[i]);
+		if (command[i][0] == '$')
+		{
+			j = -1;
+			while (shell->envp[++j])
+			{
+				if (ft_strncmp(shell->envp[j], command[i] + 1, len - 1) == 0)
+				{
+					free(command[i]);
+					command[i] = malloc(ft_strlen(shell->envp[j]) - len + 1);
+					ft_strlcpy(command[i], shell->envp[j] + len,
+						ft_strlen(shell->envp[j]) + 1);
+				}
+			}
+		}
+	}
+}
+
 /*	Handle_commands
 
 	Takes splited line from readline and launches coresponding functions
@@ -111,6 +138,7 @@ void	handle_commands(char **command, char *line, t_mshell *shell)
 {
 	char	*tmp;
 
+	handle_variables(command, shell);
 	if (ft_strncmp(command[0], "cd", 3) == 0 && split_len(command) < 3)
 		handle_cd(command, shell);
 	else if (ft_strncmp(command[0], "pwd", 4) == 0)
