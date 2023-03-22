@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 14:07:50 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/22 13:59:58 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/22 15:33:08 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,45 @@ void	handle_cd(char **command, t_mshell *shell)
 			update_prompt(shell));
 }
 
+/*	Handle_echo
+
+	Replicates the functionality of echo in bash
+	Takes splited command line and prints stuff
+	echo -> \n
+	echo sd asd -> sd asd\n
+	echo -n -> Nothing
+	echo -n asd -> asd
+
+*/
+void	handle_echo(char **command)
+{
+	int	i;
+
+	if (split_len(command) == 1)
+		printf("\n");
+	else if (!(ft_strncmp(command[1], "-n", 3) == 0))
+	{
+		i = 0;
+		while (command[++i])
+		{
+			printf("%s", command[i]);
+			if (i < split_len(command) - 1)
+				printf(" ");
+		}
+		printf("\n");
+	}
+	else if (ft_strncmp(command[1], "-n", 3) == 0)
+	{
+		i = 1;
+		while (command[++i])
+		{
+			printf("%s", command[i]);
+			if (i < split_len(command) - 1)
+				printf(" ");
+		}
+	}
+}
+
 /*	Handle_commands
 
 	Takes splited line from readline and launches coresponding functions
@@ -72,11 +111,12 @@ void	handle_commands(char **command, char *line, t_mshell *shell)
 {
 	char	*tmp;
 
-	if (ft_strncmp(command[0], "cd", ft_strlen(command[0]) + 1) == 0
-		&& split_len(command) < 3)
+	if (ft_strncmp(command[0], "cd", 3) == 0 && split_len(command) < 3)
 		handle_cd(command, shell);
-	else if (ft_strncmp(command[0], "pwd", ft_strlen(command[0]) + 1) == 0)
+	else if (ft_strncmp(command[0], "pwd", 4) == 0)
 		print_pwd();
+	else if (ft_strncmp(command[0], "echo", 5) == 0)
+		handle_echo(command);
 	return (tmp = ft_strtrim(line, " "), add_history(tmp),
 		free(tmp), free_split(command));
 }
