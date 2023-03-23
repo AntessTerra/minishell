@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
+/*   By: jbartosi <jbartosi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 13:56:16 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/22 16:45:29 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/23 12:29:00 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,10 @@ void	update_prompt(t_mshell *shell);
 //	Commands.c
 
 void	handle_commands(char **command, char *line, t_mshell *shell);
+
+//	Commands_more.c
+
+void	handle_env(t_mshell *shell);
 
 //	Split_utils.c
 

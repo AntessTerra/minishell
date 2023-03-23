@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 14:07:50 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/23 12:07:00 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/23 12:45:52 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	handle_echo(char **command)
 
 /*	Handle_variables
 
-	Loops through the splited command line 
+	Loops through the splited command line
 	and replaces valid variable names with their value
 	If its not valid, replaces it with empty string
 	echo $asdas -> \n
@@ -156,6 +156,8 @@ void	handle_commands(char **command, char *line, t_mshell *shell)
 		print_pwd();
 	else if (ft_strncmp(command[0], "echo", 5) == 0)
 		handle_echo(command);
+	else if (ft_strncmp(command[0], "env", 4) == 0 && split_len(command) == 1)
+		handle_env(shell);
 	return (tmp = ft_strtrim(line, " "), add_history(tmp),
 		free(tmp), free_split(command));
 }
