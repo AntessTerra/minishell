@@ -20,12 +20,17 @@
 */
 int	check_env(t_mshell *shell)
 {
-	if (shell->home == NULL || shell->name == NULL)
+	if (shell->home == NULL)
 		return (1);
 	if (shell->user == NULL)
 	{
 		shell->user = malloc(6);
-		shell->user = "guest";
+		ft_strlcpy(shell->name, "guest", 6);
+	}
+	if (shell->name == NULL)
+	{
+		shell->name = malloc(10);
+		ft_strlcpy(shell->name, "computer", 10);
 	}
 	return (0);
 }
@@ -39,7 +44,6 @@ void	init_struct(char **envp, t_mshell *shell)
 {
 	int		i;
 	int		j;
-	char	tmp[100000];
 
 	shell->ennames = NULL;
 	shell->ennames = malloc((split_len(envp) + 1) * sizeof(char *));

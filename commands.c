@@ -103,44 +103,6 @@ void	handle_echo(char **command)
 	}
 }
 
-/*	Handle_variables
-
-	Loops through the splited command line
-	and replaces valid variable names with their value
-	If its not valid, replaces it with empty string
-	echo $asdas -> \n
-	echo $USER -> jbartosi\n
-	echo -n $use d -> d
-*/
-int	handle_variables(char **command, t_mshell *s)
-{
-	int	i;
-	int	j;
-	int	len;
-
-	i = -1;
-	while (command[++i])
-	{
-		len = ft_strlen(command[i]);
-		if (ft_strncmp(command[i], "$", 1) == 0)
-		{
-			j = -1;
-			while (s->ennames[++j])
-			{
-				if (ft_strncmp(s->ennames[j], command[i] + 1,
-						ft_strlen(s->ennames[j])) == 0)
-					return (free(command[i]),
-						command[i] = malloc(ft_strlen(s->envp[j]) - len + 1),
-						ft_strlcpy(command[i], s->envp[j] + len,
-							ft_strlen(s->envp[j]) + 1));
-			}
-			if (command[i][0] == '$' && len > 1)
-				command[i][0] = '\0';
-		}
-	}
-	return (0);
-}
-
 /*	Handle_commands
 
 	Takes splited line from readline and launches coresponding functions
@@ -158,6 +120,8 @@ void	handle_commands(char **command, char *line, t_mshell *shell)
 		handle_echo(command);
 	else if (ft_strncmp(command[0], "env", 4) == 0 && split_len(command) == 1)
 		handle_env(shell);
+	else if (ft_strncmp(command[0], "unset", 6) == 0 && split_len(command) == 2)
+		handle_unset(command, shell);
 	return (tmp = ft_strtrim(line, " "), add_history(tmp),
 		free(tmp), free_split(command));
 }

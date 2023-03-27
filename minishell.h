@@ -37,6 +37,7 @@ typedef struct s_mshell
 //	Enviroment.c
 
 int		init_env(char **envp, t_mshell *shell);
+int		check_env(t_mshell *shell);
 
 //	Prompt.c
 
@@ -53,6 +54,8 @@ void	handle_commands(char **command, char *line, t_mshell *shell);
 //	Commands_more.c
 
 void	handle_env(t_mshell *shell);
+void	handle_unset(char **command, t_mshell *shell);
+int		handle_variables(char **command, t_mshell *s);
 
 //	Split_utils.c
 

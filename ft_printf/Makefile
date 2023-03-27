@@ -20,7 +20,7 @@ LIBC = ar rc
 LIBFT = ./libft/libft.a
 
 .c.o:
-	cc ${CFLAGS} -c $< -o ${<:.c=.o} -I ${INC}
+	cc ${CFLAGS} -c $< -o ${<:.c=.o}
 
 ${NAME}: ${OBJ}
 	make -C ./libft

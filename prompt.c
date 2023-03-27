@@ -102,7 +102,7 @@ void	ft_get_prompt(t_mshell *shell)
 	ft_strlcat(shell->shell_prompt, END, ft_strlen(shell->shell_prompt) + 5);
 	ft_strlcat(shell->shell_prompt, "@", ft_strlen(shell->shell_prompt) + 2);
 	ft_strlcat(shell->shell_prompt, shell->name, ft_strlen(shell->shell_prompt)
-		+ 7);
+		+ ft_strlen(shell->name) + 1);
 	ft_strlcat(shell->shell_prompt, " ", ft_strlen(shell->shell_prompt) + 2);
 	ft_strlcat(shell->shell_prompt, MAGENTA,
 		ft_strlen(shell->shell_prompt) + 9);
