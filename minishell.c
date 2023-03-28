@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 13:56:09 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/22 17:07:24 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/28 13:19:10 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	ft_exit(char *line, t_mshell *shell, char **command)
 	free(shell->home);
 	free(shell->user);
 	free(shell->name);
+	free(shell->pipex_path);
 	free_split(shell->ennames);
 	ft_animate(1);
 	return (0);
@@ -69,9 +70,8 @@ int	main(int argc, char **argv, char **envp)
 	static char		**command;
 	t_mshell		shell;
 
-	signal(SIGINT, handle_signal);
-	signal(SIGQUIT, SIG_IGN);
-	if (init_env(envp, &shell))
+	if ((void)argv, (void)argc, signal(SIGINT, handle_signal),
+		signal(SIGQUIT, SIG_IGN), init_env(envp, &shell))
 		return (printf("ERROR: missing enviromental variable\n"), 1);
 	ft_animate(0);
 	ft_get_prompt(&shell);

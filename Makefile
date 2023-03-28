@@ -3,43 +3,69 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jbartosi <jbartosi@student.42.fr>          +#+  +:+       +#+         #
+#    By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/15 13:56:55 by jbartosi          #+#    #+#              #
-#    Updated: 2023/03/23 12:29:19 by jbartosi         ###   ########.fr        #
+#    Updated: 2023/03/28 13:16:35 by jbartosi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
-CFLAGS = -Wall -Wextra -Werror
-PRINTF = ft_printf
-LIBFT = ft_printf/libft
+CFLAGS = -Wall -Wextra -Werror -g
 
-SRC = minishell.c prompt.c commands.c commands_more.c split_utils.c animation.c animation_utils.c enviroment.c
-OBJ = $(SRC:.c=.o)
+LIBFT_FOL = Libft/
+LIBFT = ${addprefix ${LIBFT_FOL}, libft.a}
 
-all: lib $(NAME)
+PIPEX_FOL = pipex/
+PIPEX = ${addprefix ${PIPEX_FOL}, pipex.a}
 
-lib:
-	@make -C $(PRINTF)
-	@echo "Finished making libraries :D"
+LIBS = ${LIBFT}
 
-%.o: %.c
-	@cc -g -c $<
+SRCS	=	minishell \
+			prompt \
+			commands \
+			split_utils \
+			animation \
+			animation_utils \
+			enviroment \
+			commands_more
 
-$(NAME): $(OBJ)
-	@cc $(CFLAGS) -L $(PRINTF) -o $@ $^ -lreadline -lftprintf
+OBJ_FOL	=	objs/
+
+SRC_FILES = ${addsuffix .c, ${SRCS}}
+
+MAKE_FLGS = --no-print-directory --silent
+
+# Colors
+	NRM_COLOR = \033[0;39m
+
+	GREEN = \033[0;92m
+	YELLOW = \033[0;93m
+
+##################################################################
+##################################################################
+
+all: ${NAME}
+
+${LIBS}:
+	@ make ${MAKE_FLGS} -C ${LIBFT_FOL}
+	@ make ${MAKE_FLGS} -C ${PIPEX_FOL}
+	@ echo "${GREEN}Finished making libraries :D${NRM_COLOR}"
+
+${NAME}: ${LIBS} ${SRC_FILES}
+	@ cc ${CFLAGS} ${SRC_FILES} ${LIBS} -I${LIBFT_FOL} -lreadline -o $@
+	@ echo "${GREEN}${NAME} compiled :D${NRM_COLOR}"
 
 clean:
-	@rm -f $(OBJ)
-	@make clean -C $(PRINTF)
+	@ make ${MAKE_FLGS} fclean -C ${LIBFT_FOL}
+	@ make ${MAKE_FLGS} fclean -C ${PIPEX_FOL}
+	@ echo "${YELLOW}Cleaning Libs...${NRM_COLOR}"
 
-fclean:
-	@rm -f $(OBJ)
-	@rm -f $(NAME)
-	@make fclean -C $(PRINTF)
 
-re:	fclean
-	@make all
+fclean: clean
+	@ rm -f ${NAME}
+	@ echo "${YELLOW}Deleting ${NAME}... ${NRM_COLOR}"
+
+re:	fclean all
 
 .PHONY: re, fclean, clean

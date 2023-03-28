@@ -3,14 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   commands_more.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbartosi <jbartosi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 12:24:21 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/23 12:28:40 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/28 12:59:55 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/*	Print_pwd
+
+	Takes current working directory and displays it
+*/
+void	print_pwd(void)
+{
+	char	pwd[10000];
+
+	getcwd(pwd, 10000);
+	printf("%s\n", pwd);
+}
 
 /*	Handle_env
 
@@ -51,12 +63,12 @@ void	handle_unset(char **command, t_mshell *shell)
 	}
 }
 
-/*	Is_variable
+/*	Handle_variable
 
 	Just a helper function for handle_variables.
 	Do not use outside of this scope
 */
-void	is_variable(char **command, t_mshell *s, int len, int i)
+void	handle_variable(char **command, t_mshell *s, int len, int i)
 {
 	int	j;
 
@@ -98,7 +110,7 @@ int	handle_variables(char **command, t_mshell *s)
 	while (command[++i])
 	{
 		len = ft_strlen(command[i]);
-		is_variable(command, s, len, i);
+		handle_variable(command, s, len, i);
 	}
 	return (0);
 }

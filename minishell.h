@@ -3,17 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbartosi <jbartosi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 13:56:16 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/23 12:29:00 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/28 13:18:52 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "ft_printf/ft_printf.h"
+# include "Libft/libft.h"
+# include "pipex/pipex.h"
+
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -32,6 +34,7 @@ typedef struct s_mshell
 	char	*home;
 	char	*name;
 	char	*shell_prompt;
+	char	*pipex_path;
 }				t_mshell;
 
 //	Enviroment.c
@@ -56,6 +59,7 @@ void	handle_commands(char **command, char *line, t_mshell *shell);
 void	handle_env(t_mshell *shell);
 void	handle_unset(char **command, t_mshell *shell);
 int		handle_variables(char **command, t_mshell *s);
+void	print_pwd(void);
 
 //	Split_utils.c
 

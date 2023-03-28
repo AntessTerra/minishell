@@ -3,26 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbartosi <jbartosi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 14:07:50 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/23 12:45:52 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/28 13:22:56 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*	Print_pwd
-
-	Takes current working directory and displays it
-*/
-void	print_pwd(void)
-{
-	char	pwd[10000];
-
-	getcwd(pwd, 10000);
-	printf("%s\n", pwd);
-}
 
 /*	Handle_cd
 
@@ -103,9 +91,29 @@ void	handle_echo(char **command)
 	}
 }
 
-/*	Handle_commands
+/*	Handle_pipex
+
+	Pipex by nroth
+*/
+void	handle_pipex(char **command, t_mshell *shell)
+{
+	char	**cmd;
+	pid_t	child;
+
+	cmd = ft_calloc(ft_arrlen((void **) command) + 2, sizeof (char *));
+	cmd[0] = "./pipex";
+	ft_cpyarr(&cmd[1], command);
+	child = fork();
+	if (child == 0)
+		execve(shell->pipex_path, cmd, shell->envp);
+	waitpid(child, NULL, 0);
+	free(cmd);
+}
+
+/*	Hanle_commands
 
 	Takes splited line from readline and launches coresponding functions
+	In the end, trims the line of whitespace and adds it to the history
 */
 void	handle_commands(char **command, char *line, t_mshell *shell)
 {
@@ -122,6 +130,8 @@ void	handle_commands(char **command, char *line, t_mshell *shell)
 		handle_env(shell);
 	else if (ft_strncmp(command[0], "unset", 6) == 0 && split_len(command) == 2)
 		handle_unset(command, shell);
+	else
+		handle_pipex(command, shell);
 	return (tmp = ft_strtrim(line, " "), add_history(tmp),
 		free(tmp), free_split(command));
 }

@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 14:00:55 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/22 17:33:44 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/28 13:21:50 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,27 @@
 /*	Check_env
 
 	Makes sure that it has variable home
-	and the name of the pc
-	Also if there is no user data, fills it with guest
+	Also if there is no user data, fills it with guest and
+	name with computer
 */
 int	check_env(t_mshell *shell)
 {
+	char	pwd[10000];
+
 	if (shell->home == NULL)
 		return (1);
 	if (shell->user == NULL)
 	{
 		shell->user = malloc(6);
-		ft_strlcpy(shell->name, "guest", 6);
+		ft_strlcpy(shell->user, "guest", 6);
 	}
 	if (shell->name == NULL)
 	{
 		shell->name = malloc(10);
 		ft_strlcpy(shell->name, "computer", 10);
 	}
+	getcwd(pwd, 10000);
+	shell->pipex_path = ft_strjoin(pwd, "/pipex/pipex");
 	return (0);
 }
 
