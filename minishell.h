@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 13:56:16 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/28 15:06:08 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/28 18:05:05 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,22 @@
 # include <sys/ioctl.h>
 # include <errno.h>
 
+typedef struct s_var
+{
+	char	*name;
+	char	*val;
+}				t_var;
+
 typedef struct s_mshell
 {
-	char	**envp;
-	char	**ennames;
-	char	*user;
-	char	*home;
-	char	*name;
-	char	*shell_prompt;
-	char	*last_line;
-	char	*pipex_path;
+	char			**envp;
+	struct s_var	*vars;
+	char			*user;
+	char			*home;
+	char			*name;
+	char			*shell_prompt;
+	char			*last_line;
+	char			*pipex_path;
 }				t_mshell;
 
 //	Enviroment.c

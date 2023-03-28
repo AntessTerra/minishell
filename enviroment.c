@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 14:00:55 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/28 15:06:41 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/28 18:02:54 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,17 @@ int	check_env(t_mshell *shell)
 	return (0);
 }
 
-/*	Init_struct
+/*	Init_vars
 
-	Takes pointer to structure and sets its values to NULL
-	Plus adds array envp to the structure for future use
+
 */
-void	init_struct(char **envp, t_mshell *shell)
+void	init_vars(char **envp, t_mshell *shell)
 {
 	int		i;
 	int		j;
 
-	shell->ennames = NULL;
-	shell->ennames = malloc((split_len(envp) + 1) * sizeof(char *));
+	shell->vars = NULL;
+	shell->vars = malloc((split_len(envp) + 1) * sizeof(t_var));
 	i = -1;
 	while (envp[++i])
 	{
@@ -58,10 +57,24 @@ void	init_struct(char **envp, t_mshell *shell)
 		while (envp[i][j])
 			if (envp[i][j++] == '=')
 				break ;
-		shell->ennames[i] = malloc((j + 1) * sizeof(char));
-		ft_strlcpy(shell->ennames[i], envp[i], j);
+		shell->vars[i].name = malloc((j + 1) * sizeof(char));
+		ft_strlcpy(shell->vars[i].name, envp[i], j);
+		shell->vars[i].val = malloc((ft_strlen(envp[i])) - j + 1);
+		ft_strlcpy(shell->vars[i].val, envp[i] + j,
+			(ft_strlen(envp[i])) - j + 1);
 	}
-	shell->ennames[i] = NULL;
+	shell->vars[i].name = NULL;
+	shell->vars[i].val = NULL;
+}
+
+/*	Init_struct
+
+	Takes pointer to structure and sets its values to NULL
+	Plus adds array envp to the structure for future use
+*/
+void	init_struct(char **envp, t_mshell *shell)
+{
+	init_vars(envp, shell);
 	shell->envp = envp;
 	shell->home = NULL;
 	shell->user = NULL;

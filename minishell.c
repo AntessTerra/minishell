@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 13:56:09 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/28 15:16:53 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/28 17:55:40 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,19 @@
 	O Show current git branch in prompt
 */
 
+void	free_vals(t_mshell *shell)
+{
+	int	i;
+
+	i = -1;
+	while (shell->vars[++i].name)
+		free(shell->vars[i].name);
+	i = -1;
+	while (shell->vars[++i].val)
+		free(shell->vars[i].val);
+	free(shell->vars);
+}
+
 /*	Ft_exit
 
 	Exits and frees stuff
@@ -40,7 +53,7 @@ int	ft_exit(char *line, t_mshell *shell, char **command)
 	free(shell->name);
 	free(shell->pipex_path);
 	free(shell->last_line);
-	free_split(shell->ennames);
+	free_vals(shell);
 	ft_animate(1);
 	return (0);
 }
