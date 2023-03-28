@@ -6,11 +6,24 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 13:56:09 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/28 13:19:10 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/28 15:16:53 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/*	TO_DO
+
+	O Fix error while unset path and pipex
+	O Add export buildin
+		O Add structure for envp in main structure
+	X Save last used command and compare it against now used
+		to avoid duplicate commands in history
+	O Add error number and error message handeling
+	O Add support for quotes and double quotes
+	O BONUS 😱
+	O Show current git branch in prompt
+*/
 
 /*	Ft_exit
 
@@ -26,6 +39,7 @@ int	ft_exit(char *line, t_mshell *shell, char **command)
 	free(shell->user);
 	free(shell->name);
 	free(shell->pipex_path);
+	free(shell->last_line);
 	free_split(shell->ennames);
 	ft_animate(1);
 	return (0);
@@ -55,12 +69,18 @@ void	handle_signal(int sig)
 	Displays prompt when waiting for input.
 	Stores entered line and splits it into words.
 	Handles entered commands.
-	Frees prompt, line and splited line.
-	Can handle:
-		cd
+	Frees prompt, line and splited line and main structure
+	Buildins:
+		echo <-n> MESSAGE
+			Display writen message, even enviromental variables
+		cd PATH
 			Changind the current working directory
 		pwd
 			Display the current working directory
+		unset NAME
+			Disables variable NAME in enviroment
+		env
+			Display all enviromental variables
 		exit
 			Exits the shell
 */

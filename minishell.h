@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 13:56:16 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/28 13:18:52 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/28 15:06:08 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_mshell
 	char	*home;
 	char	*name;
 	char	*shell_prompt;
+	char	*last_line;
 	char	*pipex_path;
 }				t_mshell;
 

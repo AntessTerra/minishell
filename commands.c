@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 14:07:50 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/28 13:22:56 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/28 15:11:58 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 	Takes splited line from readline and changes
 	current working directory. Depending on
-	number of arguments.
+	arguments.
 	Cases:
 		~ || blank
 			home directory
@@ -110,6 +110,23 @@ void	handle_pipex(char **command, t_mshell *shell)
 	free(cmd);
 }
 
+/*	Add_to_history
+
+	Checks if the now entered line is different from the last one
+	if so, then it adds it to the history.
+*/
+void	add_to_history(char *trimed_line, t_mshell *shell)
+{
+	if (ft_strncmp(shell->last_line, trimed_line,
+			ft_strlen(trimed_line) + 1) != 0)
+	{
+		add_history(trimed_line);
+		free(shell->last_line);
+		shell->last_line = (char *)malloc(ft_strlen(trimed_line) + 1);
+		ft_strlcpy(shell->last_line, trimed_line, ft_strlen(trimed_line) + 1);
+	}
+}
+
 /*	Hanle_commands
 
 	Takes splited line from readline and launches coresponding functions
@@ -132,6 +149,6 @@ void	handle_commands(char **command, char *line, t_mshell *shell)
 		handle_unset(command, shell);
 	else
 		handle_pipex(command, shell);
-	return (tmp = ft_strtrim(line, " "), add_history(tmp),
+	return (tmp = ft_strtrim(line, " "), add_to_history(tmp, shell),
 		free(tmp), free_split(command));
 }
