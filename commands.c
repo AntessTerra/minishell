@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 14:07:50 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/28 15:11:58 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/29 13:03:24 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,8 @@ void	handle_commands(char **command, char *line, t_mshell *shell)
 		handle_env(shell);
 	else if (ft_strncmp(command[0], "unset", 6) == 0 && split_len(command) == 2)
 		handle_unset(command, shell);
+	else if (ft_strncmp(command[0], "export", 7) == 0 && split_len(command) < 3)
+		handle_export(command, shell);
 	else
 		handle_pipex(command, shell);
 	return (tmp = ft_strtrim(line, " "), add_to_history(tmp, shell),

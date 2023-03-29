@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 13:56:16 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/28 18:05:05 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/29 13:27:42 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,10 @@ void	handle_env(t_mshell *shell);
 void	handle_unset(char **command, t_mshell *shell);
 int		handle_variables(char **command, t_mshell *s);
 void	print_pwd(void);
+
+//	Commands_more2.c
+
+void	handle_export(char **command, t_mshell *shell);
 
 //	Split_utils.c
 

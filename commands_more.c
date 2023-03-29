@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 12:24:21 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/28 17:56:50 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/29 12:38:51 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,12 @@ void	handle_env(t_mshell *shell)
 {
 	int	i;
 
-	i = -1;
-	while (shell->envp[++i])
+	i = 0;
+	while (shell->vars[i].name && shell->vars[i].val)
 	{
-		if (shell->envp[i][0] != '\0')
-			printf("%s\n", shell->envp[i]);
+		if (shell->vars[i].name[0] != '\0' && shell->vars[i].val[0] != '\0')
+			printf("%s=%s\n", shell->vars[i].name, shell->vars[i].val);
+		i++;
 	}
 }
 

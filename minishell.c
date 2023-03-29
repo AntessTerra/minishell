@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 13:56:09 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/28 17:55:40 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/29 12:32:17 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,12 @@
 
 	O Fix error while unset path and pipex
 	O Add export buildin
-		O Add structure for envp in main structure
+		X Add structure for envp in main structure
 	X Save last used command and compare it against now used
 		to avoid duplicate commands in history
 	O Add error number and error message handeling
 	O Add support for quotes and double quotes
 	O BONUS 😱
-	O Show current git branch in prompt
 */
 
 void	free_vals(t_mshell *shell)
