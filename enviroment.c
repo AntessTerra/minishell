@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 14:00:55 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/28 18:02:54 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/30 14:38:41 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,10 @@ int	init_env(char **envp, t_mshell *shell)
 		}
 		else if (ft_strncmp(envp[i], "SESSION_MANAGER=", 16) == 0)
 		{
-			shell->name = malloc(7);
-			ft_strlcpy(shell->name, envp[i] + 22, 7);
+			shell->name = malloc(8);
+			ft_strlcpy(shell->name, envp[i] + 22, 8);
+			if (shell->name[6] == '.')
+				shell->name[6] = '\0';
 		}
 	}
 	return (check_env(shell));
