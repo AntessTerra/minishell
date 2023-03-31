@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 13:56:16 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/29 13:27:42 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/31 10:56:15 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,10 @@ typedef struct s_mshell
 	char			*pipex_path;
 }				t_mshell;
 
+//	Minishell.c
+
+void	free_vals(t_mshell *shell);
+
 //	Enviroment.c
 
 int		init_env(char **envp, t_mshell *shell);
@@ -68,9 +72,14 @@ void	handle_unset(char **command, t_mshell *shell);
 int		handle_variables(char **command, t_mshell *s);
 void	print_pwd(void);
 
-//	Commands_more2.c
+//	Export.c
 
 void	handle_export(char **command, t_mshell *shell);
+
+//	Export_utils.c
+
+void	recreate(char **command, t_mshell *shell);
+int		is_defined(char **command, t_mshell *shell);
 
 //	Split_utils.c
 

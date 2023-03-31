@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   commands_more2.c                                   :+:      :+:    :+:   */
+/*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 12:40:02 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/29 15:29:03 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/31 11:15:29 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	print_export(t_mshell *shell)
 
 /*	Export_name
 
-	Creates a new env variable with
+	Creates a new env variable with empty val
 */
 void	export_name(char **command, t_mshell *shell)
 {
@@ -54,19 +54,19 @@ void	export_name(char **command, t_mshell *shell)
 		if (shell->vars[i].name[0] == '\0')
 			break ;
 	if (shell->vars[i].name == NULL)
-	{
-		printf("OOPS\n");
-		//Create new variable with empty val
-	}
+		recreate(command, shell);
 	else if (shell->vars[i].name[0] == '\0')
 	{
-		printf("%i: CHANGING\n", i);
 		free(shell->vars[i].name);
 		shell->vars[i].name = malloc((j + 1) * sizeof(char));
 		ft_strlcpy(shell->vars[i].name, command[1], j + 1);
 	}
 }
 
+/*	Export_both
+
+	Creates a new env variable with given val
+*/
 void	export_both(char **command, t_mshell *shell)
 {
 	int	j;
@@ -81,13 +81,9 @@ void	export_both(char **command, t_mshell *shell)
 		if (shell->vars[i].name[0] == '\0')
 			break ;
 	if (shell->vars[i].name == NULL)
-	{
-		printf("OOPS BOTH\n");
-		//Create new variable with given val
-	}
+		recreate(command, shell);
 	else if (shell->vars[i].name[0] == '\0')
 	{
-		printf("%i: CHANGING BOTH\n", i);
 		free(shell->vars[i].name);
 		shell->vars[i].name = malloc((j + 1) * sizeof(char));
 		ft_strlcpy(shell->vars[i].name, command[1], j);
@@ -145,12 +141,11 @@ void	handle_export(char **command, t_mshell *shell)
 	{
 		if (ft_strchr(command[1], '='))
 		{
-			printf("SAVE NAME AND VAL\n");
 			if (!change_val(command, shell))
 				return ;
 			export_both(command, shell);
 		}
-		else
-			return (printf("SAVE ONLY NAME\n"), export_name(command, shell));
+		else if (!is_defined(command, shell))
+			export_name(command, shell);
 	}
 }

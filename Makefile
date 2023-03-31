@@ -6,7 +6,7 @@
 #    By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/15 13:56:55 by jbartosi          #+#    #+#              #
-#    Updated: 2023/03/29 12:40:45 by jbartosi         ###   ########.fr        #
+#    Updated: 2023/03/30 15:51:35 by jbartosi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,8 @@ SRCS	=	minishell \
 			animation_utils \
 			enviroment \
 			commands_more \
-			commands_more2
+			export \
+			export_utils
 
 OBJ_FOL	=	objs/
 
