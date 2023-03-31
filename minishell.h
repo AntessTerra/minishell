@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 13:56:16 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/31 10:56:15 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/31 12:47:33 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	handle_export(char **command, t_mshell *shell);
 
 void	recreate(char **command, t_mshell *shell);
 int		is_defined(char **command, t_mshell *shell);
+char	**convert_toenvp(t_mshell *shell);
 
 //	Split_utils.c
 

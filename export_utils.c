@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 14:46:09 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/31 11:15:12 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/31 12:52:45 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,27 @@ int	is_defined(char **command, t_mshell *shell)
 		return (1);
 	else
 		return (0);
+}
+
+char	**convert_toenvp(t_mshell *shell)
+{
+	char	**exp;
+	int		i;
+
+	exp = malloc((count_vals(shell) + 1) * sizeof(char **));
+	i = -1;
+	while (shell->vars[++i].name)
+	{
+		exp[i] = malloc(ft_strlen(shell->vars[i].name)
+				+ ft_strlen(shell->vars[i].val) + 2);
+		ft_strlcpy(exp[i], shell->vars[i].name,
+			ft_strlen(shell->vars[i].name) + 1);
+		ft_strlcat(exp[i], "=", ft_strlen(exp[i]) + 2);
+		ft_strlcat(exp[i], shell->vars[i].val, ft_strlen(exp[i])
+			+ ft_strlen(shell->vars[i].val) + 1);
+	}
+	exp[i] = NULL;
+	return (exp);
 }
 
 /*	Add_one

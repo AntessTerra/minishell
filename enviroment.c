@@ -6,11 +6,33 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 14:00:55 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/30 14:38:41 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/31 15:25:11 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/*	Get_hostname
+
+	Reads /etc/hostname file and returns shorten version for the prompt
+*/
+char	*get_hostname(void)
+{
+	int		fd;
+	char	*hostname;
+	int		i;
+
+	fd = open ("/etc/hostname", O_RDONLY);
+	if (fd == -1)
+		return (NULL);
+	hostname = get_next_line(fd);
+	close(fd);
+	i = 0;
+	while (!ft_strchr("\n.", hostname[i]))
+		i++;
+	hostname[i] = 0;
+	return (hostname);
+}
 
 /*	Check_env
 
@@ -106,13 +128,7 @@ int	init_env(char **envp, t_mshell *shell)
 			shell->user = malloc(ft_strlen(envp[i]) - 4 * sizeof(char));
 			ft_strlcpy(shell->user, envp[i] + 5, ft_strlen(envp[i]) - 4);
 		}
-		else if (ft_strncmp(envp[i], "SESSION_MANAGER=", 16) == 0)
-		{
-			shell->name = malloc(8);
-			ft_strlcpy(shell->name, envp[i] + 22, 8);
-			if (shell->name[6] == '.')
-				shell->name[6] = '\0';
-		}
 	}
+	shell->name = get_hostname();
 	return (check_env(shell));
 }

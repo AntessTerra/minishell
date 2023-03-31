@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 14:07:50 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/29 13:03:24 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/31 12:52:10 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	handle_pipex(char **command, t_mshell *shell)
 	ft_cpyarr(&cmd[1], command);
 	child = fork();
 	if (child == 0)
-		execve(shell->pipex_path, cmd, shell->envp);
+		execve(shell->pipex_path, cmd, convert_toenvp(shell));
 	waitpid(child, NULL, 0);
 	free(cmd);
 }
