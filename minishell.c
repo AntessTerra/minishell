@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 13:56:09 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/31 15:25:25 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/03/31 16:09:51 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 /*	TO_DO
 
-	O Fix error while unset path and pipex
-	O Add export buildin
+	X Fix error while unset path and pipex
+	X Add export buildin
 		X Add structure for envp in main structure
 	X Save last used command and compare it against now used
 		to avoid duplicate commands in history
