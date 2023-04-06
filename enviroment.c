@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 14:00:55 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/31 15:25:11 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/04/06 11:42:49 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ void	init_struct(char **envp, t_mshell *shell)
 	shell->home = NULL;
 	shell->user = NULL;
 	shell->name = NULL;
+	shell->exit_status = 0;
 	shell->last_line = malloc(1);
 	shell->last_line[0] = '\0';
 }

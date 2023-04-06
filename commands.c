@@ -6,51 +6,11 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 14:07:50 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/31 12:52:10 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/04/06 13:49:08 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*	Handle_cd
-
-	Takes splited line from readline and changes
-	current working directory. Depending on
-	arguments.
-	Cases:
-		~ || blank
-			home directory
-		-
-			previous directory
-		relative or absolute path
-*/
-void	handle_cd(char **command, t_mshell *shell)
-{
-	static char	old_path[10000];
-	char		tmp[10000];
-
-	if (split_len(command) == 2)
-	{
-		if (ft_strncmp(command[1], "~", ft_strlen(command[1])) == 0)
-			return (getcwd(old_path, 10000), chdir(getenv("HOME")),
-				update_prompt(shell));
-		else if (ft_strncmp(command[1], "-", ft_strlen(command[1])) == 0)
-		{
-			if (old_path[0] != '\0')
-				return (getcwd(tmp, 10000), chdir(old_path),
-					ft_strlcpy(old_path, tmp, ft_strlen(tmp) + 1), print_pwd(),
-					update_prompt(shell));
-			else
-				printf("NO old path set\n");
-		}
-		else
-			return (getcwd(old_path, 10000), chdir(command[1]),
-				update_prompt(shell));
-	}
-	else
-		return (getcwd(old_path, 10000), chdir(getenv("HOME")),
-			update_prompt(shell));
-}
 
 /*	Handle_echo
 
@@ -62,10 +22,8 @@ void	handle_cd(char **command, t_mshell *shell)
 	echo -n asd -> asd
 
 */
-void	handle_echo(char **command)
+void	handle_echo(char **command, t_mshell *shell, int i)
 {
-	int	i;
-
 	if (split_len(command) == 1)
 		printf("\n");
 	else if (!(ft_strncmp(command[1], "-n", 3) == 0))
@@ -89,6 +47,7 @@ void	handle_echo(char **command)
 				printf(" ");
 		}
 	}
+	shell->exit_status = 0;
 }
 
 /*	Handle_pipex
@@ -99,6 +58,7 @@ void	handle_pipex(char **command, t_mshell *shell)
 {
 	char	**cmd;
 	pid_t	child;
+	int		stat;
 
 	cmd = ft_calloc(ft_arrlen((void **) command) + 2, sizeof (char *));
 	cmd[0] = "./pipex";
@@ -106,7 +66,8 @@ void	handle_pipex(char **command, t_mshell *shell)
 	child = fork();
 	if (child == 0)
 		execve(shell->pipex_path, cmd, convert_toenvp(shell));
-	waitpid(child, NULL, 0);
+	waitpid(child, &stat, 0);
+	shell->exit_status = WEXITSTATUS(stat);
 	free(cmd);
 }
 
@@ -134,15 +95,16 @@ void	add_to_history(char *trimed_line, t_mshell *shell)
 */
 void	handle_commands(char **command, char *line, t_mshell *shell)
 {
-	char	*tmp;
+	char		*tmp;
+	static int	i;
 
 	handle_variables(command, shell);
 	if (ft_strncmp(command[0], "cd", 3) == 0 && split_len(command) < 3)
 		handle_cd(command, shell);
 	else if (ft_strncmp(command[0], "pwd", 4) == 0)
-		print_pwd();
+		print_pwd(shell);
 	else if (ft_strncmp(command[0], "echo", 5) == 0)
-		handle_echo(command);
+		handle_echo(command, shell, i);
 	else if (ft_strncmp(command[0], "env", 4) == 0 && split_len(command) == 1)
 		handle_env(shell);
 	else if (ft_strncmp(command[0], "unset", 6) == 0 && split_len(command) == 2)
@@ -152,5 +114,5 @@ void	handle_commands(char **command, char *line, t_mshell *shell)
 	else
 		handle_pipex(command, shell);
 	return (tmp = ft_strtrim(line, " "), add_to_history(tmp, shell),
-		free(tmp), free_split(command));
+		update_prompt(shell), free(tmp), free_split(command));
 }

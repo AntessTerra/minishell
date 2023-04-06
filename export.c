@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 12:40:02 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/31 12:51:46 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/04/06 13:38:16 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,4 +148,5 @@ void	handle_export(char **command, t_mshell *shell)
 		else if (!is_defined(command, shell))
 			export_name(command, shell);
 	}
+	shell->exit_status = 0;
 }

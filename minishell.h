@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 13:56:16 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/31 12:47:33 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/04/06 13:49:53 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_mshell
 	char			*shell_prompt;
 	char			*last_line;
 	char			*pipex_path;
+	int				exit_status;
 }				t_mshell;
 
 //	Minishell.c
@@ -69,8 +70,11 @@ void	handle_commands(char **command, char *line, t_mshell *shell);
 
 void	handle_env(t_mshell *shell);
 void	handle_unset(char **command, t_mshell *shell);
+void	print_pwd(t_mshell *shell);
+
+//	Commands_variables.c
+
 int		handle_variables(char **command, t_mshell *s);
-void	print_pwd(void);
 
 //	Export.c
 
@@ -81,6 +85,10 @@ void	handle_export(char **command, t_mshell *shell);
 void	recreate(char **command, t_mshell *shell);
 int		is_defined(char **command, t_mshell *shell);
 char	**convert_toenvp(t_mshell *shell);
+
+//	Change_directory.c
+
+void	handle_cd(char **command, t_mshell *shell);
 
 //	Split_utils.c
 

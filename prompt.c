@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbartosi <jbartosi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:12:32 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/28 12:32:55 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/04/06 12:22:09 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,30 @@ void	update_prompt(t_mshell *shell)
 	ft_get_prompt(shell);
 }
 
+/*	Errno_prompt
+
+	Checks for exit status of process, if it's not 0, displays it in prompt
+*/
+void	ft_errno_prompt(t_mshell *shell, char **swd)
+{
+	char	*exit_num;
+
+	exit_num = ft_itoa(shell->exit_status);
+	if (shell->exit_status == 0)
+		ft_strlcat(shell->shell_prompt, "> ",
+			ft_strlen(shell->shell_prompt) + 3);
+	else
+	{
+		ft_strlcat(shell->shell_prompt, "\e[1;31m [",
+			ft_strlen(shell->shell_prompt) + 10);
+		ft_strlcat(shell->shell_prompt, exit_num,
+			ft_strlen(shell->shell_prompt) + ft_strlen(exit_num) + 1);
+		ft_strlcat(shell->shell_prompt, "]\e[0m> ",
+			ft_strlen(shell->shell_prompt) + 8);
+	}
+	return (free(*swd), free(exit_num));
+}
+
 /*	Get_prompt
 
 	Takes shorted working directory from shorten_pwd()
@@ -109,6 +133,5 @@ void	ft_get_prompt(t_mshell *shell)
 	ft_strlcat(shell->shell_prompt, swd,
 		ft_strlen(shell->shell_prompt) + ft_strlen(swd) + 1);
 	ft_strlcat(shell->shell_prompt, END, ft_strlen(shell->shell_prompt) + 5);
-	ft_strlcat(shell->shell_prompt, "> ", ft_strlen(shell->shell_prompt) + 3);
-	return (free(swd));
+	ft_errno_prompt(shell, &swd);
 }

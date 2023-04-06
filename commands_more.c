@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 12:24:21 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/29 12:38:51 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/04/06 13:26:33 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,13 @@
 
 	Takes current working directory and displays it
 */
-void	print_pwd(void)
+void	print_pwd(t_mshell *shell)
 {
 	char	pwd[10000];
 
 	getcwd(pwd, 10000);
 	printf("%s\n", pwd);
+	shell->exit_status = 0;
 }
 
 /*	Handle_env
@@ -39,6 +40,7 @@ void	handle_env(t_mshell *shell)
 			printf("%s=%s\n", shell->vars[i].name, shell->vars[i].val);
 		i++;
 	}
+	shell->exit_status = 0;
 }
 
 /*	Handle_unset
@@ -62,56 +64,5 @@ void	handle_unset(char **command, t_mshell *shell)
 			shell->vars[i].name[0] = '\0';
 		}
 	}
-}
-
-/*	Handle_variable
-
-	Just a helper function for handle_variables.
-	Do not use outside of this scope
-*/
-void	handle_variable(char **command, t_mshell *s, int len, int i)
-{
-	int	j;
-
-	if (ft_strncmp(command[i], "$", 1) == 0)
-	{
-		j = -1;
-		while (s->vars[++j].name)
-		{
-			if (ft_strncmp(s->vars[j].name, command[i] + 1,
-					ft_strlen(s->vars[j].name)) == 0
-				&& s->vars[j].name[0] != '\0')
-			{
-				free(command[i]);
-				command[i] = malloc(ft_strlen(s->vars[j].val) + 1);
-				ft_strlcpy(command[i], s->vars[j].val,
-					ft_strlen(s->vars[j].val) + 1);
-			}
-		}
-		if (command[i][0] == '$' && len > 1)
-			command[i][0] = '\0';
-	}
-}
-
-/*	Handle_variables
-
-	Loops through the splited command line
-	and replaces valid variable names with their value
-	If its not valid, replaces it with empty string
-	echo $asdas -> \n
-	echo $USER -> jbartosi\n
-	echo -n $use d -> d
-*/
-int	handle_variables(char **command, t_mshell *s)
-{
-	int	i;
-	int	len;
-
-	i = -1;
-	while (command[++i])
-	{
-		len = ft_strlen(command[i]);
-		handle_variable(command, s, len, i);
-	}
-	return (0);
+	shell->exit_status = 0;
 }
