@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 13:56:09 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/31 16:09:51 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/04/06 17:19:29 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int	ft_exit(char *line, t_mshell *shell, char **command)
 	free(shell->name);
 	free(shell->pipex_path);
 	free(shell->last_line);
+	free(shell->old_path);
 	free_vals(shell);
 	ft_animate(1);
 	return (0);

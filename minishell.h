@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 13:56:16 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/04/06 13:49:53 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/04/06 17:18:49 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_mshell
 	char			*last_line;
 	char			*pipex_path;
 	int				exit_status;
+	char			*old_path;
 }				t_mshell;
 
 //	Minishell.c
