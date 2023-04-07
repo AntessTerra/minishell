@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 13:56:09 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/04/06 17:19:29 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/04/07 19:10:46 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	ft_exit(char *line, t_mshell *shell, char **command)
 	free(shell->old_path);
 	free_vals(shell);
 	ft_animate(1);
-	return (0);
+	return (shell->exit_status);
 }
 
 /*	Handle_signal
@@ -96,6 +96,31 @@ void	handle_signal(int sig)
 			Display all enviromental variables
 		exit
 			Exits the shell
+
+	Code for testers:
+	if (argc >= 3 && !ft_strncmp(argv[1], "-c", 3))
+	{
+		int i = 0;
+		if ((void)argv, (void)argc, signal(SIGINT, handle_signal),
+			signal(SIGQUIT, SIG_IGN), init_env(envp, &shell))
+		return (printf("ERROR: missing enviromental variable\n"), 1);
+		//ft_animate(0);
+		ft_get_prompt(&shell);
+		line = argv[2];
+		while (i == 0)
+		{
+			if (ft_strlen(line) > 0)
+			{
+				command = ft_split(line, ' ');
+				if (ft_strncmp(command[0], "exit", 5) == 0)
+					return (handle_exit(command, &shell), shell.exit_status);
+				else
+					handle_commands(command, line, &shell);
+			}
+			i++;
+		}
+		return (shell.exit_status);
+	}
 */
 int	main(int argc, char **argv, char **envp)
 {
@@ -115,7 +140,8 @@ int	main(int argc, char **argv, char **envp)
 		{
 			command = ft_split(line, ' ');
 			if (ft_strncmp(command[0], "exit", 5) == 0)
-				return (ft_exit(line, &shell, command));
+				return (handle_exit(command, &shell),
+					ft_exit(line, &shell, command));
 			else
 				handle_commands(command, line, &shell);
 		}

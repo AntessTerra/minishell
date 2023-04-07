@@ -6,33 +6,11 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 14:00:55 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/04/06 17:19:14 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/04/07 18:46:38 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*	Get_hostname
-
-	Reads /etc/hostname file and returns shorten version for the prompt
-*/
-char	*get_hostname(void)
-{
-	int		fd;
-	char	*hostname;
-	int		i;
-
-	fd = open ("/etc/hostname", O_RDONLY);
-	if (fd == -1)
-		return (NULL);
-	hostname = get_next_line(fd);
-	close(fd);
-	i = 0;
-	while (!ft_strchr("\n.", hostname[i]))
-		i++;
-	hostname[i] = 0;
-	return (hostname);
-}
 
 /*	Check_env
 
@@ -61,6 +39,25 @@ int	check_env(t_mshell *shell)
 	return (0);
 }
 
+void	more_vars(t_mshell *shell, int *i)
+{
+	char	pwd[10000];
+
+	shell->vars[*i].name = malloc(2);
+	ft_strlcpy(shell->vars[*i].name, "_", 2);
+	shell->vars[*i].val = malloc(12);
+	ft_strlcpy(shell->vars[(*i)++].val, "./minishell", 12);
+	shell->vars[*i].name = malloc(6);
+	ft_strlcpy(shell->vars[*i].name, "SHLVL", 6);
+	shell->vars[*i].val = malloc(2);
+	ft_strlcpy(shell->vars[(*i)++].val, "2", 2);
+	shell->vars[*i].name = malloc(7);
+	ft_strlcpy(shell->vars[*i].name, "OLDPWD", 7);
+	getcwd(pwd, 10000);
+	shell->vars[*i].val = malloc(ft_strlen(pwd) + 1);
+	ft_strlcpy(shell->vars[(*i)++].val, pwd, ft_strlen(pwd) + 1);
+}
+
 /*	Init_vars
 
 
@@ -71,7 +68,7 @@ void	init_vars(char **envp, t_mshell *shell)
 	int		j;
 
 	shell->vars = NULL;
-	shell->vars = malloc((split_len(envp) + 1) * sizeof(t_var));
+	shell->vars = malloc((split_len(envp) + 4) * sizeof(t_var));
 	i = -1;
 	while (envp[++i])
 	{
@@ -85,6 +82,7 @@ void	init_vars(char **envp, t_mshell *shell)
 		ft_strlcpy(shell->vars[i].val, envp[i] + j,
 			(ft_strlen(envp[i])) - j + 1);
 	}
+	more_vars(shell, &i);
 	shell->vars[i].name = NULL;
 	shell->vars[i].val = NULL;
 }
@@ -97,7 +95,6 @@ void	init_vars(char **envp, t_mshell *shell)
 void	init_struct(char **envp, t_mshell *shell)
 {
 	init_vars(envp, shell);
-	shell->envp = envp;
 	shell->home = NULL;
 	shell->user = NULL;
 	shell->name = NULL;

@@ -6,25 +6,43 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:49:18 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/04/06 17:31:59 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/04/07 19:12:54 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	update_oldpwd(t_mshell *shell)
+{
+	int	i;
+
+	i = -1;
+	while (shell->vars[++i].name)
+	{
+		if (ft_strncmp(shell->vars[i].name, "OLDPWD", 7) == 0)
+		{
+			free(shell->vars[i].val);
+			shell->vars[i].val = malloc(ft_strlen(shell->old_path) + 1);
+			ft_strlcpy(shell->vars[i].val, shell->old_path,
+				ft_strlen(shell->old_path) + 1);
+		}
+	}
+}
+
 /*	Go_back
 
 	Previous directory
 */
-void	go_back(t_mshell *shell, char **old_path)
+void	go_back(t_mshell *shell)
 {
 	char	tmp[10000];
 
 	getcwd(tmp, 10000);
-	chdir(*old_path);
-	free(*old_path);
-	*old_path = malloc(ft_strlen(tmp) + 1);
-	ft_strlcpy(*old_path, tmp, ft_strlen(tmp) + 1);
+	chdir(shell->old_path);
+	free(shell->old_path);
+	shell->old_path = malloc(ft_strlen(tmp) + 1);
+	ft_strlcpy(shell->old_path, tmp, ft_strlen(tmp) + 1);
+	update_oldpwd(shell);
 	print_pwd(shell);
 	shell->exit_status = 0;
 }
@@ -33,14 +51,15 @@ void	go_back(t_mshell *shell, char **old_path)
 
 	Home directory
 */
-void	go_home(t_mshell *shell, char **old_path)
+void	go_home(t_mshell *shell)
 {
 	char	tmp[10000];
 
 	getcwd(tmp, 10000);
-	free(*old_path);
-	*old_path = malloc(ft_strlen(tmp) + 1);
-	ft_strlcpy(*old_path, tmp, ft_strlen(tmp) + 1);
+	free(shell->old_path);
+	shell->old_path = malloc(ft_strlen(tmp) + 1);
+	ft_strlcpy(shell->old_path, tmp, ft_strlen(tmp) + 1);
+	update_oldpwd(shell);
 	chdir(getenv("HOME"));
 	shell->exit_status = 0;
 }
@@ -49,21 +68,24 @@ void	go_home(t_mshell *shell, char **old_path)
 
 	Relative or absolute path
 */
-void	ft_chdir(char **command, t_mshell *shell, char **old_path)
+void	ft_chdir(char **command, t_mshell *shell)
 {
 	char	tmp[10000];
 
-	getcwd(tmp, 10000);
-	free(*old_path);
-	*old_path = malloc(ft_strlen(tmp) + 1);
-	ft_strlcpy(*old_path, tmp, ft_strlen(tmp) + 1);
 	if (chdir(command[1]) != 0)
 	{
-		printf("cd: %s: No such file or directory\n", command[1]);
+		ft_putstr_fd("cd: No such file or directory\n", STDERR_FILENO);
 		shell->exit_status = 1;
 	}
 	else
+	{
 		shell->exit_status = 0;
+		getcwd(tmp, 10000);
+		free(shell->old_path);
+		shell->old_path = malloc(ft_strlen(tmp) + 1);
+		ft_strlcpy(shell->old_path, tmp, ft_strlen(tmp) + 1);
+		update_oldpwd(shell);
+	}
 }
 
 /*	Handle_cd
@@ -83,18 +105,23 @@ void	handle_cd(char **command, t_mshell *shell)
 	if (split_len(command) == 2)
 	{
 		if (ft_strncmp(command[1], "~", ft_strlen(command[1])) == 0)
-			go_home(shell, &shell->old_path);
+			go_home(shell);
 		else if (ft_strncmp(command[1], "-", ft_strlen(command[1])) == 0)
 		{
 			if (shell->old_path[0] != '\0')
-				go_back(shell, &shell->old_path);
+				go_back(shell);
 			else
 				return (printf("NO old path set\n"), shell->exit_status = 1,
 					update_prompt(shell));
 		}
 		else
-			ft_chdir(command, shell, &shell->old_path);
+			ft_chdir(command, shell);
+	}
+	else if (split_len(command) > 2)
+	{
+		shell->exit_status = 1;
+		ft_putstr_fd("cd: too many arguments\n", STDERR_FILENO);
 	}
 	else
-		go_home(shell, &shell->old_path);
+		go_home(shell);
 }

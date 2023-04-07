@@ -6,11 +6,57 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:13:34 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/04/06 13:42:49 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/04/07 18:25:37 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/*	Get_hostname
+
+	Reads /etc/hostname file and returns shorten version for the prompt
+*/
+char	*get_hostname(void)
+{
+	int		fd;
+	char	*hostname;
+	int		i;
+
+	fd = open ("/etc/hostname", O_RDONLY);
+	if (fd == -1)
+		return (NULL);
+	hostname = get_next_line(fd);
+	close(fd);
+	i = 0;
+	while (!ft_strchr("\n.", hostname[i]))
+		i++;
+	hostname[i] = 0;
+	return (hostname);
+}
+
+void	home_tilda(char **command, t_mshell *s, int len, int i)
+{
+	char	*tmp;
+
+	if (command[i][0] == '~' && len == 1)
+	{
+		free(command[i]);
+		command[i] = malloc(ft_strlen(s->home) + 1);
+		ft_strlcpy(command[i], s->home, ft_strlen(s->home) + 1);
+	}
+	else if (command[i][0] == '~' && command[i][1] == '/')
+	{
+		tmp = malloc(ft_strlen(command[i]) + 1);
+		ft_strlcpy(tmp, command[i], ft_strlen(command[i]) + 1);
+		free(command[i]);
+		command[i] = malloc(ft_strlen(s->home) + ft_strlen(tmp) + 1);
+		ft_strlcpy(command[i], s->home, ft_strlen(s->home) + 1);
+		ft_strlcat(command[i], "/", ft_strlen(command[i]) + 2);
+		ft_strlcat(command[i], tmp + 2, ft_strlen(command[i])
+			+ ft_strlen(tmp) + 1);
+		free(tmp);
+	}
+}
 
 /*	Exit_status
 
@@ -54,7 +100,7 @@ void	handle_variable(char **command, t_mshell *s, int len, int i)
 		while (s->vars[++j].name)
 		{
 			if (ft_strncmp(s->vars[j].name, command[i] + 1,
-					ft_strlen(s->vars[j].name)) == 0
+					ft_strlen(s->vars[j].name) + 1) == 0
 				&& s->vars[j].name[0] != '\0')
 			{
 				free(command[i]);
@@ -65,6 +111,7 @@ void	handle_variable(char **command, t_mshell *s, int len, int i)
 		}
 		exit_status(command, s, len, i);
 	}
+	home_tilda(command, s, len, i);
 }
 
 /*	Handle_variables

@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 13:56:16 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/04/06 17:18:49 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/04/07 18:24:52 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ typedef struct s_var
 
 typedef struct s_mshell
 {
-	char			**envp;
 	struct s_var	*vars;
 	char			*user;
 	char			*home;
@@ -72,10 +71,12 @@ void	handle_commands(char **command, char *line, t_mshell *shell);
 void	handle_env(t_mshell *shell);
 void	handle_unset(char **command, t_mshell *shell);
 void	print_pwd(t_mshell *shell);
+void	handle_exit(char **command, t_mshell *shell);
 
-//	Commands_variables.c
+//	Variables.c
 
 int		handle_variables(char **command, t_mshell *s);
+char	*get_hostname(void);
 
 //	Export.c
 
@@ -86,6 +87,7 @@ void	handle_export(char **command, t_mshell *shell);
 void	recreate(char **command, t_mshell *shell);
 int		is_defined(char **command, t_mshell *shell);
 char	**convert_toenvp(t_mshell *shell);
+int		count_vals(t_mshell *shell);
 
 //	Change_directory.c
 

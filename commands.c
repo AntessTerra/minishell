@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 14:07:50 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/04/06 13:49:08 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/04/07 18:54:58 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,25 @@ void	handle_pipex(char **command, t_mshell *shell)
 	Checks if the now entered line is different from the last one
 	if so, then it adds it to the history.
 */
-void	add_to_history(char *trimed_line, t_mshell *shell)
+void	add_to_history(char **command, char *trimed_line, t_mshell *shell)
 {
+	int	i;
+
 	if (ft_strncmp(shell->last_line, trimed_line,
 			ft_strlen(trimed_line) + 1) != 0)
 	{
 		add_history(trimed_line);
+		i = -1;
+		while (shell->vars[++i].name)
+		{
+			if (ft_strncmp(shell->vars[i].name, "_", 2) == 0)
+			{
+				free(shell->vars[i].val);
+				shell->vars[i].val = malloc(ft_strlen(command[0]) + 1);
+				ft_strlcpy(shell->vars[i].val, command[0],
+					ft_strlen(command[0]) + 1);
+			}
+		}
 		free(shell->last_line);
 		shell->last_line = (char *)malloc(ft_strlen(trimed_line) + 1);
 		ft_strlcpy(shell->last_line, trimed_line, ft_strlen(trimed_line) + 1);
@@ -99,7 +112,7 @@ void	handle_commands(char **command, char *line, t_mshell *shell)
 	static int	i;
 
 	handle_variables(command, shell);
-	if (ft_strncmp(command[0], "cd", 3) == 0 && split_len(command) < 3)
+	if (ft_strncmp(command[0], "cd", 3) == 0)
 		handle_cd(command, shell);
 	else if (ft_strncmp(command[0], "pwd", 4) == 0)
 		print_pwd(shell);
@@ -113,6 +126,6 @@ void	handle_commands(char **command, char *line, t_mshell *shell)
 		handle_export(command, shell);
 	else
 		handle_pipex(command, shell);
-	return (tmp = ft_strtrim(line, " "), add_to_history(tmp, shell),
+	return (tmp = ft_strtrim(line, " "), add_to_history(command, tmp, shell),
 		update_prompt(shell), free(tmp), free_split(command));
 }
