@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 12:40:02 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/04/06 13:38:16 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/04/08 13:29:59 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,8 @@ void	handle_export(char **command, t_mshell *shell)
 		print_export(shell);
 	else if (split_len(command) == 2)
 	{
+		if (!valid_identifier(command, shell))
+			return ((void) 0);
 		if (ft_strchr(command[1], '='))
 		{
 			if (!change_val(command, shell))

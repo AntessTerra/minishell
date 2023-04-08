@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 13:56:09 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/04/07 19:10:46 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/04/08 13:16:31 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@
 	X Fix error while unset path and pipex
 	X Add export buildin
 		X Add structure for envp in main structure
+		O Add checker for valid identifier
 	X Save last used command and compare it against now used
 		to avoid duplicate commands in history
-	O Add error number and error message handeling
+	X Add error number and error message handeling
 	O Add support for quotes and double quotes
 	O BONUS 😱
 */
@@ -128,6 +129,29 @@ int	main(int argc, char **argv, char **envp)
 	static char		**command;
 	t_mshell		shell;
 
+	if (argc >= 3 && !ft_strncmp(argv[1], "-c", 3))
+	{
+		int i = 0;
+		if ((void)argv, (void)argc, signal(SIGINT, handle_signal),
+			signal(SIGQUIT, SIG_IGN), init_env(envp, &shell))
+		return (printf("ERROR: missing enviromental variable\n"), 1);
+		//ft_animate(0);
+		ft_get_prompt(&shell);
+		line = argv[2];
+		while (i == 0)
+		{
+			if (ft_strlen(line) > 0)
+			{
+				command = ft_split(line, ' ');
+				if (ft_strncmp(command[0], "exit", 5) == 0)
+					return (handle_exit(command, &shell), shell.exit_status);
+				else
+					handle_commands(command, line, &shell);
+			}
+			i++;
+		}
+		return (shell.exit_status);
+	}
 	if ((void)argv, (void)argc, signal(SIGINT, handle_signal),
 		signal(SIGQUIT, SIG_IGN), init_env(envp, &shell))
 		return (printf("ERROR: missing enviromental variable\n"), 1);

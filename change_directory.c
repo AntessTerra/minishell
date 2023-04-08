@@ -6,12 +6,16 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:49:18 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/04/07 19:12:54 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/04/08 13:14:19 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*	Uprate_oldpwd
+
+	Updates $OLDPWD env variable after succsesful directory change
+*/
 void	update_oldpwd(t_mshell *shell)
 {
 	int	i;

@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:13:34 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/04/07 18:25:37 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/04/08 13:12:44 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,10 @@ char	*get_hostname(void)
 	return (hostname);
 }
 
+/*	Home_tilda
+
+	Checks for tilda in command line and replaces it with home path
+*/
 void	home_tilda(char **command, t_mshell *s, int len, int i)
 {
 	char	*tmp;

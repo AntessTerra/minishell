@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 12:24:21 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/04/07 17:18:20 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/04/08 13:13:26 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,10 @@ void	handle_unset(char **command, t_mshell *shell)
 	shell->exit_status = 0;
 }
 
+/*	Handle_exit
+
+	Checks for exit number and return it as exit status
+*/
 void	handle_exit(char **command, t_mshell *shell)
 {
 	if (split_len(command) == 1)

@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 13:56:16 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/04/07 18:24:52 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/04/08 13:28:04 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,10 @@ void	recreate(char **command, t_mshell *shell);
 int		is_defined(char **command, t_mshell *shell);
 char	**convert_toenvp(t_mshell *shell);
 int		count_vals(t_mshell *shell);
+
+//	Export_checker.c
+
+int		valid_identifier(char **command, t_mshell *shell);
 
 //	Change_directory.c
 

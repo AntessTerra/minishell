@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 14:00:55 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/04/07 18:46:38 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/04/08 13:15:55 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@ int	check_env(t_mshell *shell)
 	return (0);
 }
 
+/*	More_vars
+
+	Initiates additional env variables
+	that are created after lauch of minishell
+*/
 void	more_vars(t_mshell *shell, int *i)
 {
 	char	pwd[10000];
@@ -60,7 +65,7 @@ void	more_vars(t_mshell *shell, int *i)
 
 /*	Init_vars
 
-
+	Converts envp into array of variable names and values for easier manipulation
 */
 void	init_vars(char **envp, t_mshell *shell)
 {

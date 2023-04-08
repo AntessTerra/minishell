@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 14:46:09 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/31 12:52:45 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/04/08 13:11:56 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,11 @@ int	is_defined(char **command, t_mshell *shell)
 		return (0);
 }
 
+/*	Convert_toenvp
+
+	Takes and array of variable names and values
+	and converts it into envp like array of srtings
+*/
 char	**convert_toenvp(t_mshell *shell)
 {
 	char	**exp;
