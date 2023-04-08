@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 13:56:16 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/04/08 13:28:04 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/04/08 16:04:58 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ int		check_env(t_mshell *shell);
 
 //	Prompt.c
 
-# define MAGENTA	"\033[0;35m"
-# define END		"\033[0m"
+# define MAGENTA	"\001\e[0;35m\002"
+# define END		"\001\e[0m\002"
 
 void	ft_get_prompt(t_mshell *shell);
 void	update_prompt(t_mshell *shell);

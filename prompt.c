@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:12:32 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/04/06 15:46:14 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/04/08 16:07:42 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,12 +98,12 @@ void	ft_errno_prompt(t_mshell *shell, char **swd)
 			ft_strlen(shell->shell_prompt) + 3);
 	else
 	{
-		ft_strlcat(shell->shell_prompt, "\e[1;31m [",
-			ft_strlen(shell->shell_prompt) + 10);
+		ft_strlcat(shell->shell_prompt, "\001\e[1;31m\002 [",
+			ft_strlen(shell->shell_prompt) + 20);
 		ft_strlcat(shell->shell_prompt, exit_num,
 			ft_strlen(shell->shell_prompt) + ft_strlen(exit_num) + 1);
-		ft_strlcat(shell->shell_prompt, "]\e[0m> ",
-			ft_strlen(shell->shell_prompt) + 8);
+		ft_strlcat(shell->shell_prompt, "]\001\e[0m\002> ",
+			ft_strlen(shell->shell_prompt) + 20);
 	}
 	return (free(*swd), free(exit_num));
 }
@@ -119,19 +119,19 @@ void	ft_get_prompt(t_mshell *shell)
 
 	swd = shorten_pwd();
 	shell->shell_prompt = (char *)malloc(ft_strlen(shell->user)
-			+ ft_strlen(shell->name) + ft_strlen(swd) + 50);
-	ft_strlcpy(shell->shell_prompt, MAGENTA, 8);
+			+ ft_strlen(shell->name) + ft_strlen(swd) + 60);
+	ft_strlcpy(shell->shell_prompt, MAGENTA, 20);
 	ft_strlcat(shell->shell_prompt, shell->user, ft_strlen(shell->shell_prompt)
 		+ ft_strlen(shell->user) + 1);
-	ft_strlcat(shell->shell_prompt, END, ft_strlen(shell->shell_prompt) + 5);
+	ft_strlcat(shell->shell_prompt, END, ft_strlen(shell->shell_prompt) + 20);
 	ft_strlcat(shell->shell_prompt, "@", ft_strlen(shell->shell_prompt) + 2);
 	ft_strlcat(shell->shell_prompt, shell->name, ft_strlen(shell->shell_prompt)
 		+ ft_strlen(shell->name) + 1);
 	ft_strlcat(shell->shell_prompt, " ", ft_strlen(shell->shell_prompt) + 2);
 	ft_strlcat(shell->shell_prompt, MAGENTA,
-		ft_strlen(shell->shell_prompt) + 9);
+		ft_strlen(shell->shell_prompt) + 20);
 	ft_strlcat(shell->shell_prompt, swd,
 		ft_strlen(shell->shell_prompt) + ft_strlen(swd) + 1);
-	ft_strlcat(shell->shell_prompt, END, ft_strlen(shell->shell_prompt) + 5);
+	ft_strlcat(shell->shell_prompt, END, ft_strlen(shell->shell_prompt) + 20);
 	ft_errno_prompt(shell, &swd);
 }
