@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 14:00:55 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/04/08 13:15:55 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/04/08 16:32:34 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,6 @@ void	more_vars(t_mshell *shell, int *i)
 	ft_strlcpy(shell->vars[*i].name, "_", 2);
 	shell->vars[*i].val = malloc(12);
 	ft_strlcpy(shell->vars[(*i)++].val, "./minishell", 12);
-	shell->vars[*i].name = malloc(6);
-	ft_strlcpy(shell->vars[*i].name, "SHLVL", 6);
-	shell->vars[*i].val = malloc(2);
-	ft_strlcpy(shell->vars[(*i)++].val, "2", 2);
 	shell->vars[*i].name = malloc(7);
 	ft_strlcpy(shell->vars[*i].name, "OLDPWD", 7);
 	getcwd(pwd, 10000);
@@ -73,7 +69,7 @@ void	init_vars(char **envp, t_mshell *shell)
 	int		j;
 
 	shell->vars = NULL;
-	shell->vars = malloc((split_len(envp) + 4) * sizeof(t_var));
+	shell->vars = malloc((split_len(envp) + 3) * sizeof(t_var));
 	i = -1;
 	while (envp[++i])
 	{
