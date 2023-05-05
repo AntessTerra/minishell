@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 13:56:16 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/04/29 14:35:26 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/05/05 13:15:48 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int		handle_commands(char **command, char *line, t_mshell *shell);
 
 void	handle_env(t_mshell *shell);
 void	handle_unset(char **command, t_mshell *shell);
-void	print_pwd(t_mshell *shell);
+//void	print_pwd(t_mshell *shell);
 void	handle_exit(char **command, t_mshell *shell);
 
 //	Variables.c

@@ -6,16 +6,17 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 12:24:21 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/04/08 13:13:26 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/05/05 13:18:01 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*	Print_pwd
+/*	Print_pwd MOVED TO PIPEX
 
 	Takes current working directory and displays it
 */
+/*
 void	print_pwd(t_mshell *shell)
 {
 	char	pwd[10000];
@@ -24,6 +25,7 @@ void	print_pwd(t_mshell *shell)
 	printf("%s\n", pwd);
 	shell->exit_status = 0;
 }
+*/
 
 /*	Handle_env
 

@@ -7,7 +7,8 @@ SRC_FILES		=	pipex\
 					piper\
 					get_full_cmd\
 					pipex_utils\
-					prog_creation
+					prog_creation\
+					commands
 
 
 LIBFT_FOL		= ../Libft/
@@ -28,7 +29,7 @@ YELLOW			=	\033[0;93m
 all:		${NAME}
 
 ${NAME}:	${SRCS} ${LIBFT}
-			@ cc ${CFLAGS} ${SRCS} ${LIBFT} -I${LIBFT_FOL} -o ${NAME}
+			 cc ${CFLAGS} ${SRCS} ${LIBFT} -I${LIBFT_FOL} -o ${NAME}
 			@ echo "${GREEN}pipex compiled!${NRM_COLOR}"
 
 ${LIBFT}:	

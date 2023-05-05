@@ -6,13 +6,13 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 14:07:50 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/04/29 14:44:18 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/05/05 13:17:34 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*	Handle_echo
+/*	Handle_echo MOVED TO PIPEX
 
 	Replicates the functionality of echo in bash
 	Takes splited command line and prints stuff
@@ -22,6 +22,7 @@
 	echo -n asd -> asd
 
 */
+/*
 void	handle_echo(char **command, t_mshell *shell, int i)
 {
 	if (split_len(command) == 1)
@@ -49,6 +50,7 @@ void	handle_echo(char **command, t_mshell *shell, int i)
 	}
 	shell->exit_status = 0;
 }
+*/
 
 /*	Handle_pipex
 
@@ -109,17 +111,12 @@ void	add_to_history(char **command, char *trimed_line, t_mshell *shell)
 int	handle_commands(char **command, char *line, t_mshell *shell)
 {
 	char		*tmp;
-	static int	i;
 
 	handle_variables(command, shell);
 	if (ft_strncmp(command[0], "exit", 5) == 0)
 		return (handle_exit(command, shell), 1);
 	else if (ft_strncmp(command[0], "cd", 3) == 0)
 		handle_cd(command, shell);
-	else if (ft_strncmp(command[0], "pwd", 4) == 0)
-		print_pwd(shell);
-	else if (ft_strncmp(command[0], "echo", 5) == 0)
-		handle_echo(command, shell, i);
 	else if (ft_strncmp(command[0], "env", 4) == 0 && split_len(command) == 1)
 		handle_env(shell);
 	else if (ft_strncmp(command[0], "unset", 6) == 0 && split_len(command) == 2)

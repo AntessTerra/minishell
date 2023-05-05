@@ -73,6 +73,7 @@ static void	gfc_extander(char **split_path, char **splot)
 		free(temp);
 		if (access(path, 0) == 0)
 		{
+			errno = 0;
 			free(splot[0]);
 			splot[0] = path;
 			break ;
@@ -88,7 +89,9 @@ char	**get_full_cmd(t_prog *prog, int i)
 	char	**split_path;
 
 	splot = split_command(prog->cmds[i]);
-	if (ft_strchr(splot[0], '/'))
+	if (ft_strchr(splot[0], '/')
+		|| !ft_strncmp(splot[0], "echo", 5)
+		|| !ft_strncmp(splot[0], "pwd", 4))
 		return (splot);
 	path = getenv("PATH");
 	if (!path)

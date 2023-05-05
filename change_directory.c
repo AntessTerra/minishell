@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:49:18 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/04/29 14:53:59 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/05/05 13:22:56 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void	go_back(t_mshell *shell)
 	shell->old_path = malloc(ft_strlen(tmp) + 1);
 	ft_strlcpy(shell->old_path, tmp, ft_strlen(tmp) + 1);
 	update_oldpwd(shell);
-	print_pwd(shell);
+	getcwd(tmp, 10000);
+	printf("%s\n", tmp);
 	shell->exit_status = 0;
 }
 
