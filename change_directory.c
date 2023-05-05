@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:49:18 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/04/08 13:14:19 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/04/29 14:53:59 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	ft_chdir(char **command, t_mshell *shell)
 {
 	char	tmp[10000];
 
+	getcwd(tmp, 10000);
 	if (chdir(command[1]) != 0)
 	{
 		ft_putstr_fd("cd: No such file or directory\n", STDERR_FILENO);
@@ -84,7 +85,6 @@ void	ft_chdir(char **command, t_mshell *shell)
 	else
 	{
 		shell->exit_status = 0;
-		getcwd(tmp, 10000);
 		free(shell->old_path);
 		shell->old_path = malloc(ft_strlen(tmp) + 1);
 		ft_strlcpy(shell->old_path, tmp, ft_strlen(tmp) + 1);

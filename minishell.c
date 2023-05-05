@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 13:56:09 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/04/08 16:16:50 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/04/29 14:41:36 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,16 +135,14 @@ int	main(int argc, char **argv, char **envp)
 	ft_animate(0);
 	ft_get_prompt(&shell);
 	line = readline(shell.shell_prompt);
-	while (line != NULL)
+	while (line)
 	{
 		if (ft_strlen(line) > 0)
 		{
 			command = ft_split(line, ' ');
-			if (ft_strncmp(command[0], "exit", 5) == 0)
-				return (handle_exit(command, &shell),
-					ft_exit(line, &shell, command));
-			else
-				handle_commands(command, line, &shell);
+			if (command[0])
+				if (handle_commands(command, line, &shell) != 0)
+					return (ft_exit(line, &shell, command));
 		}
 		free(line);
 		line = readline(shell.shell_prompt);
