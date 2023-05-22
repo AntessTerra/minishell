@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:32:00 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/05/21 16:36:05 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/05/22 15:47:59 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,15 +134,8 @@ int	count_slashes(char *str)
 	return (count);
 }
 
-void	split_by_star(char *str, char ****split, int nstar)
+void	allocate(char *str, char ****split, int nstar, int x)
 {
-	int	i;
-	int	x;
-	int	y;
-	int	star;
-	int	a;
-	int	b;
-
 	split[0] = malloc(nstar * sizeof(char *));
 	x = -1;
 	while (x++ < nstar - 1)
@@ -151,6 +144,42 @@ void	split_by_star(char *str, char ****split, int nstar)
 		split[0][x][0] = malloc(ft_strlen(str) + 1);
 		split[0][x][1] = malloc(ft_strlen(str) + 1);
 	}
+}
+
+void	single_split(char *str, char ****split)
+{
+	int			i;
+	int			x;
+	static int	star;
+	static int	a;
+	static int	b;
+
+	x = 0;
+	i = -1;
+	while (str[++i])
+	{
+		if (str[i] == '*')
+			star = 1;
+		else if (!star)
+			split[0][x][0][b++] = str[i];
+		else if (star)
+			split[0][x][1][a++] = str[i];
+	}
+	split[0][x][1][a] = 0;
+	split[0][x][0][b] = 0;
+}
+
+void	split_by_star(char *str, char ****split, int nstar)
+{
+	int	i;
+	int	x;
+	int	star;
+	int	a;
+	int	b;
+
+	allocate(str, split, nstar, x);
+	if (nstar == 1)
+		return (single_split(str, split));
 	i = -1;
 	x = -1;
 	a = 0;
@@ -158,53 +187,48 @@ void	split_by_star(char *str, char ****split, int nstar)
 	star = 0;
 	while (++x < nstar)
 	{
-		if (nstar == 1)
+		while (str[++i])
 		{
-			while (str[++i])
+			if (str[i] == '*' && star)
 			{
-				if (str[i] == '*')
-					star = 1;
-				else if (!star)
-					split[0][x][0][b++] = str[i];
-				else if (star)
-					split[0][x][1][a++] = str[i];
+				split[0][x][0][b] = 0;
+				split[0][x][1][a] = 0;
+				a = 0;
+				b = 0;
+				x++;
 			}
-			split[0][x][1][a] = 0;
-			split[0][x][0][b] = 0;
-		}
-		else
-		{
-			while (str[++i])
+			else if (str[i] == '*')
 			{
-				if (str[i] == '*' && star)
-				{
-					split[0][x][0][b] = 0;
-					split[0][x][1][a] = 0;
-					a = 0;
-					b = 0;
-					x++;
-				}
-				else if (str[i] == '*')
-				{
-					star = 1;
-					split[0][x][0][b] = 0;
-					b = 0;
-				}
-				else if (!star && x == 0)
-					split[0][x][0][b++] = str[i];
-				else if (star && x == nstar - 1)
-				{
-					split[0][x][1][a++] = str[i];
-				}
-				else if (star)
-				{
-					split[0][x][1][a++] = str[i];
-					split[0][x + 1][0][b++] = str[i];
-				}
+				star = 1;
+				split[0][x][0][b] = 0;
+				b = 0;
 			}
-			split[0][x][1][a] = 0;
+			else if (!star && x == 0)
+				split[0][x][0][b++] = str[i];
+			else if (star && x == nstar - 1)
+				split[0][x][1][a++] = str[i];
+			else if (star)
+			{
+				split[0][x][1][a++] = str[i];
+				split[0][x + 1][0][b++] = str[i];
+			}
 		}
+		split[0][x][1][a] = 0;
 	}
+}
+
+void	free_split(char ****split, int nstar)
+{
+	int	n;
+
+	n = -1;
+	while (++n < nstar)
+	{
+		free(split[0][n][0]);
+		free(split[0][n][1]);
+		free(split[0][n]);
+	}
+	free(split[0]);
 }
 
 int	main(int argc, char **argv)
@@ -217,25 +241,14 @@ int	main(int argc, char **argv)
 	{
 		nstar = count_stars(argv[1]);
 		if (nstar == 1)
-		{
 			return (split_by_star(argv[1], &split, nstar),
-				single_star(split[0][0], split[0][1]), free(split[0][1]),
-					free(split[0][0]), free(split[0]), free(split), 0);
-		}
+				single_star(split[0][0], split[0][1]),
+				free_split(&split, nstar), 0);
 		else if (nstar == ft_strlen(argv[1]) && argv[1][0])
 			single_star("\0", "\0");
 		else if (nstar > 1 && count_nonstars(argv[1]) > 0)
-		{
-			split_by_star(argv[1], &split, nstar);
-			more_star(&split, nstar);
-			n = -1;
-			while (++n < nstar)
-			{
-				free(split[n][0]);
-				free(split[n][1]);
-				free(split[n]);
-			}
-			free(split);
-		}
+			return (split_by_star(argv[1], &split, nstar),
+				more_star(&split, nstar),
+				free_split(&split, nstar), 0);
 	}
 }
