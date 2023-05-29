@@ -57,6 +57,7 @@ static void	get_outfile(int *argc, char **argv[], t_prog *prog)
 		return ;
 	if (ft_strncmp((*argv)[(*argc) - 2], ">", 1) == 0)
 	{
+		prog->outfile_fd = -1;
 		prog->outfile_path = (*argv)[*argc - 1];
 		if (ft_strncmp((*argv)[*argc - 2], ">", 2) == 0)
 			prog->outfile_permissions = (O_CREAT | O_WRONLY | O_TRUNC);
@@ -71,51 +72,31 @@ static void	get_outfile(int *argc, char **argv[], t_prog *prog)
 static void	get_cmds(char *argv[], t_prog *prog)
 {
 	int		i;
-	char	*temp;
-	char	*cmds;
+	char	**cmds;
 
 	i = -1;
-	cmds = ft_strdup("");
+	cmds = NULL;
 	while (argv[++i])
 	{
-		temp = ft_strjoin(cmds, argv[i]);
-		cmds = (free (cmds), temp);
-		temp = ft_strjoin(cmds, " ");
-		cmds = (free (cmds), temp);
-	}
-	prog->cmds = ft_split(cmds, '|');
-	free(cmds);
-	i = -1;
-	while (prog->cmds[++i])
-	{
-		temp = ft_strtrim(prog->cmds[i], " ");
-		free (prog->cmds[i]);
-		prog->cmds[i] = temp;
-	}
-	prog->cmd_num = ft_arrlen((void **) prog->cmds);
-}
-/* 
-static void	get_cmds(char *argv[], t_prog *prog)
-{
-	int	i;
-	int	j;
-
-	i = 1;
-	while (argv[i])
-	{
-		if (ft_strncmp(argv[i], "|", 2) == 0)
+		if (ft_strncmp(argv[i], "|", 2) == 0 && cmds)
 		{
-			j = i - 1;
-			while (argv[++j])
-				argv[j] = argv[j + 1];
+			prog->cmds = (char ***) ft_arrappend_void((void **) prog->cmds,
+					(void *) cmds);
+			cmds = NULL;
 		}
 		else
-			i++;
+		{
+			if (!cmds)
+				cmds = ft_arrappend(cmds, get_full_cmd(prog, argv[i]));
+			else
+				cmds = ft_arrappend(cmds, ft_strdup(argv[i]));
+		}
 	}
-	prog->cmds = argv;
-	prog->cmd_num = i;
+	if (cmds)
+		prog->cmds = (char ***) ft_arrappend_void((void **) prog->cmds,
+				(void *) cmds);
+	prog->cmd_num = ft_arrlen((void **) prog->cmds);
 }
- */
 
 t_prog	*prog_creation(int argc, char *argv[], char *env[])
 {

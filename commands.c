@@ -22,7 +22,7 @@
 	echo -n asd -> asd
 
 */
-void	handle_echo(char **command, t_mshell *shell, int i)
+/*void	handle_echo(char **command, t_mshell *shell, int i)
 {
 	if (split_len(command) == 1)
 		printf("\n");
@@ -48,7 +48,7 @@ void	handle_echo(char **command, t_mshell *shell, int i)
 		}
 	}
 	shell->exit_status = 0;
-}
+} */
 
 /*	Handle_pipex
 
@@ -62,7 +62,7 @@ void	handle_pipex(char **command, t_mshell *shell)
 
 	cmd = ft_calloc(ft_arrlen((void **) command) + 2, sizeof (char *));
 	cmd[0] = "./pipex";
-	ft_cpyarr(&cmd[1], command);
+	ft_arrcpy(&cmd[1], command);
 	child = fork();
 	if (child == 0)
 		execve(shell->pipex_path, cmd, convert_toenvp(shell));
@@ -109,17 +109,11 @@ void	add_to_history(char **command, char *trimed_line, t_mshell *shell)
 int	handle_commands(char **command, char *line, t_mshell *shell)
 {
 	char		*tmp;
-	static int	i;
 
-	handle_variables(command, shell);
 	if (ft_strncmp(command[0], "exit", 5) == 0)
 		return (handle_exit(command, shell), 1);
 	else if (ft_strncmp(command[0], "cd", 3) == 0)
 		handle_cd(command, shell);
-	else if (ft_strncmp(command[0], "pwd", 4) == 0)
-		print_pwd(shell);
-	else if (ft_strncmp(command[0], "echo", 5) == 0)
-		handle_echo(command, shell, i);
 	else if (ft_strncmp(command[0], "env", 4) == 0 && split_len(command) == 1)
 		handle_env(shell);
 	else if (ft_strncmp(command[0], "unset", 6) == 0 && split_len(command) == 2)
@@ -131,3 +125,8 @@ int	handle_commands(char **command, char *line, t_mshell *shell)
 	return (tmp = ft_strtrim(line, " "), add_to_history(command, tmp, shell),
 		update_prompt(shell), free(tmp), free_split(command), 0);
 }
+
+/* 	else if (ft_strncmp(command[0], "pwd", 4) == 0)
+		print_pwd(shell);
+	else if (ft_strncmp(command[0], "echo", 5) == 0)
+		handle_echo(command, shell, i); */

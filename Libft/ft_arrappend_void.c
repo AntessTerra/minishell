@@ -1,31 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   header2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nroth <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/11 12:02:10 by nroth             #+#    #+#             */
-/*   Updated: 2023/01/11 12:02:14 by nroth            ###   ########.fr       */
+/*   Created: 2022/10/14 08:56:59 by nroth             #+#    #+#             */
+/*   Updated: 2022/10/14 08:57:05 by nroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlcpy(char *dest, char *src, size_t size)
+/*
+	appends item to void * array and re allocates the space.
+	original arr is freed
+	NOTE: ITEM has to be freeable
+*/
+void	**ft_arrappend_void(void **arr, void *to_append)
 {
-	size_t	i;
-	size_t	src_len;
+	void	**ret;
+	int		i;
 
 	i = 0;
-	src_len = ft_strlen(src);
-	if (size < 1 || !src)
-		return (src_len);
-	while (src[i] && i < size - 1)
+	ret = malloc (sizeof (void *) * (ft_arrlen(arr) + 2));
+	while (arr && arr[i])
 	{
-		dest[i] = src[i];
+		ret[i] = arr[i];
 		i++;
 	}
-	dest[i] = '\0';
-	return (src_len);
+	ret [i] = to_append;
+	ret [i + 1] = NULL;
+	free (arr);
+	arr = ret;
+	return (ret);
 }

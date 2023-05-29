@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 12:24:21 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/04/08 13:13:26 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/05/17 18:12:48 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@
 
 	Takes current working directory and displays it
 */
-void	print_pwd(t_mshell *shell)
+/* void	print_pwd(t_mshell *shell)
 {
 	char	pwd[10000];
 
 	getcwd(pwd, 10000);
 	printf("%s\n", pwd);
 	shell->exit_status = 0;
-}
+} */
 
 /*	Handle_env
 

@@ -6,7 +6,7 @@
 #    By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/15 13:56:55 by jbartosi          #+#    #+#              #
-#    Updated: 2023/04/08 13:28:17 by jbartosi         ###   ########.fr        #
+#    Updated: 2023/05/15 14:07:08 by jbartosi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,8 @@ SRCS	=	minishell \
 			change_directory \
 			export \
 			export_utils \
-			export_checker
+			export_checker \
+			splitters
 
 OBJ_FOL	=	objs/
 

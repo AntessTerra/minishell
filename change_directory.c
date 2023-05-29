@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:49:18 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/04/29 14:53:59 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/05/29 16:31:39 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,11 @@
 */
 void	update_oldpwd(t_mshell *shell)
 {
-	int	i;
+	int		i;
+	char	tmp[10000];
 
 	i = -1;
+	getcwd(tmp, 10000);
 	while (shell->vars[++i].name)
 	{
 		if (ft_strncmp(shell->vars[i].name, "OLDPWD", 7) == 0)
@@ -29,6 +31,13 @@ void	update_oldpwd(t_mshell *shell)
 			shell->vars[i].val = malloc(ft_strlen(shell->old_path) + 1);
 			ft_strlcpy(shell->vars[i].val, shell->old_path,
 				ft_strlen(shell->old_path) + 1);
+		}
+		else if (ft_strncmp(shell->vars[i].name, "PWD", 4) == 0)
+		{
+			free(shell->vars[i].val);
+			shell->vars[i].val = malloc(ft_strlen(tmp) + 1);
+			ft_strlcpy(shell->vars[i].val, tmp,
+				ft_strlen(tmp) + 1);
 		}
 	}
 }
@@ -47,7 +56,6 @@ void	go_back(t_mshell *shell)
 	shell->old_path = malloc(ft_strlen(tmp) + 1);
 	ft_strlcpy(shell->old_path, tmp, ft_strlen(tmp) + 1);
 	update_oldpwd(shell);
-	print_pwd(shell);
 	shell->exit_status = 0;
 }
 
@@ -63,8 +71,8 @@ void	go_home(t_mshell *shell)
 	free(shell->old_path);
 	shell->old_path = malloc(ft_strlen(tmp) + 1);
 	ft_strlcpy(shell->old_path, tmp, ft_strlen(tmp) + 1);
-	update_oldpwd(shell);
 	chdir(getenv("HOME"));
+	update_oldpwd(shell);
 	shell->exit_status = 0;
 }
 
