@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 13:56:16 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/04/29 14:35:26 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/05/30 15:35:22 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_mshell
 
 void	free_vals(t_mshell *shell);
 int		ft_exit(char *line, t_mshell *shell, char **command);
+int		has_char(char *str);
 
 //	Enviroment.c
 

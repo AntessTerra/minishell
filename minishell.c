@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 13:56:09 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/04/29 14:41:36 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/05/30 16:02:47 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,19 @@ void	handle_signal(int sig)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 	}
+}
+
+int	has_char(char *str)
+{
+	int	i;
+
+	i = -1;
+	while (str[++i])
+	{
+		if (ft_isalnum(str[i]) == 1)
+			return (1);
+	}
+	return (0);
 }
 
 /*	Main

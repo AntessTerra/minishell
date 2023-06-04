@@ -6,7 +6,7 @@
 /*   By: jbartosi <jbartosi@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 11:05:33 by jbartosi          #+#    #+#             */
-/*   Updated: 2023/03/28 12:35:58 by jbartosi         ###   ########.fr       */
+/*   Updated: 2023/05/30 15:23:28 by jbartosi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ void	ft_animate(int exit)
 	int		i;
 	int		maxlines;
 
-	return ;
 	maxlines = count_new_lines(SHELL8) + 1;
 	i = -1;
 	while (++i < maxlines)
